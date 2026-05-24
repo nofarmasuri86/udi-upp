@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import Image from 'next/image'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -31,10 +32,15 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
 
         {/* Logo block */}
-        <div className="border border-[#151515] bg-[#151515] p-6 text-center mb-0">
-          <div className="w-14 h-14 bg-[#8B1A1A] flex items-center justify-center text-3xl mx-auto mb-3">🧩</div>
-          <h1 className="text-2xl font-black text-[#f3f3f3] leading-tight">אודי הרכבות</h1>
-          <p className="text-[#8B1A1A] text-xs font-bold mt-1 tracking-widest uppercase">מערכת ניהול עסק</p>
+        <div className="border border-[#151515] bg-white p-6 flex items-center justify-center mb-0">
+          <Image
+            src="/logo.png"
+            alt="אודי הרכבות"
+            width={280}
+            height={58}
+            className="h-14 w-auto object-contain"
+            priority
+          />
         </div>
 
         {/* Form block */}

@@ -18,16 +18,15 @@ export default async function DashboardLayout({
       <SidebarInset className="bg-[#f3f3f3]">
         <header className="flex h-14 items-center justify-between border-b border-[#151515] bg-[#f3f3f3] px-4 sticky top-0 z-10">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-[#8B1A1A] flex items-center justify-center text-white font-black text-sm shrink-0">
-                🧩
-              </div>
-              <div>
-                <span className="text-sm font-black text-[#151515] leading-none block">אודי הרכבות</span>
-                <span className="text-[10px] text-[#8B1A1A] font-semibold leading-none block mt-0.5">התקנות · הרכבות · פירוק</span>
-              </div>
-            </div>
+          <div className="flex items-center">
+            <Image
+              src="/logo.png"
+              alt="אודי הרכבות"
+              width={210}
+              height={44}
+              className="h-10 w-auto object-contain"
+              priority
+            />
           </div>
 
           {/* Right controls */}
