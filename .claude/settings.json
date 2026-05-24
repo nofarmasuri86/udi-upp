@@ -1,4 +1,14 @@
 {
-  "enabledPlugins": {
-  }
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\Users\\\\nofar\\\\Desktop\\\\projects\\\\udi-app\\\\app\\\\login\")",
+      "Bash(supabase --version)",
+      "PowerShell(if \\(Test-Path \"C:\\\\Users\\\\nofar\\\\.claude.json\"\\) { $d = Get-Content \"C:\\\\Users\\\\nofar\\\\.claude.json\" | ConvertFrom-Json; $d.mcpServers | ConvertTo-Json } else { \"no .claude.json\" })",
+      "PowerShell(Start-Sleep -Seconds 8; try { $r = Invoke-WebRequest -Uri \"http://localhost:3000\" -TimeoutSec 5 -UseBasicParsing; \"OK: $\\($r.StatusCode\\)\" } catch { \"Not ready: $_\" })"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\nofar\\.claude\\projects\\c--Users-nofar-Desktop-projects-udi-app\\memory"
+    ]
+  },
+  "enabledPlugins": {}
 }

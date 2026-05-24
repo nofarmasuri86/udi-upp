@@ -13,7 +13,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@21st-sdk/nextjs": "^0.0.11",
+    "@21st-sdk/react": "^0.2.3",
+    "@anthropic-ai/sdk": "^0.97.1",
     "@base-ui/react": "^1.4.0",
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.106.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -37,6 +42,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.2.1",
+    "@types/dom-speech-recognition": "^0.0.11",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

@@ -1,15 +1,16 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google"
-
+import { Rubik, Geist_Mono } from "next/font/google"
+import type { Metadata } from "next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'})
+const rubik = Rubik({ subsets: ["latin", "hebrew"], variable: "--font-sans" })
+const fontMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" })
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+export const metadata: Metadata = {
+  title: "AutoBase — אודי נגרות",
+  description: "מערכת ניהול עסקי לנגרות",
+}
 
 export default function RootLayout({
   children,
@@ -18,9 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="he"
+      dir="rtl"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
+      className={cn("antialiased", fontMono.variable, "font-sans", rubik.variable)}
     >
       <body>
         <ThemeProvider>{children}</ThemeProvider>
