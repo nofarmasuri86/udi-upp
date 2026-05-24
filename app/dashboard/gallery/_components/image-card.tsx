@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useTransition } from "react"
 import Link from "next/link"
@@ -27,7 +27,7 @@ export function ImageCard({ item }: { item: GalleryItemProps }) {
 
   return (
     <>
-      <div className="group relative flex flex-col overflow-hidden rounded-2xl border bg-card shadow-sm transition-shadow hover:shadow-md">
+      <div className="group relative flex flex-col overflow-hidden rounded-none border bg-card shadow-sm transition-shadow hover:shadow-md">
         {/* Image */}
         <div className="relative aspect-square w-full overflow-hidden bg-muted">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -89,3 +89,4 @@ export function ImageCard({ item }: { item: GalleryItemProps }) {
     </>
   )
 }
+

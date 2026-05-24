@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useRef, useCallback, useEffect } from "react"
 import { sendChatMessage, loadChatHistory, clearChatHistory } from "@/app/actions/ai-chat"
@@ -154,7 +154,7 @@ export default function ChatPage() {
     return (
       <div className="flex h-[calc(100vh-4rem)] items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-2xl animate-pulse">🤖</div>
+          <div className="w-12 h-12 rounded-none bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-2xl animate-pulse">🤖</div>
           <p className="text-sm text-muted-foreground">טוען שיחה...</p>
         </div>
       </div>
@@ -168,7 +168,7 @@ export default function ChatPage() {
       <div className="flex-1 min-w-0 min-h-0 flex flex-col relative">
         {/* Voice indicator */}
         {recording && (
-          <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">
+          <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-red-500 text-[#151515] text-xs font-bold px-4 py-2 rounded-full shadow-lg">
             <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
             מקליט... לחץ שוב לשליחה
           </div>
@@ -190,7 +190,7 @@ export default function ChatPage() {
             disabled={status !== "ready"}
             className={`absolute bottom-[72px] left-3 z-10 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all ${
               recording
-                ? "bg-red-500 text-white animate-pulse"
+                ? "bg-red-500 text-[#151515] animate-pulse"
                 : "bg-muted text-muted-foreground hover:bg-amber-100 hover:text-amber-600"
             }`}
             title={recording ? "עצור ושלח" : "הקלטה קולית"}
@@ -220,7 +220,7 @@ export default function ChatPage() {
               "הפקת קבלות (Make.com)",
             ].map((cap) => (
               <li key={cap} className="flex items-start gap-2 text-xs text-black/40 dark:text-white/40">
-                <span className="mt-0.5 text-amber-400">✦</span>
+                <span className="mt-0.5 text-[#8B1A1A]">✦</span>
                 <span>{cap}</span>
               </li>
             ))}
@@ -230,3 +230,4 @@ export default function ChatPage() {
     </div>
   )
 }
+

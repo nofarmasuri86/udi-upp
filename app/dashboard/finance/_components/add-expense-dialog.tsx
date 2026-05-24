@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useTransition, useRef } from "react"
 import { Plus, X } from "lucide-react"
@@ -33,7 +33,7 @@ export function AddExpenseDialog({ projects }: { projects: { id: string; title: 
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 bg-gradient-to-r from-rose-600 to-red-600 text-white text-sm font-bold px-4 py-2.5 rounded-2xl shadow-lg shadow-rose-500/30 hover:scale-105 active:scale-95 transition-all border border-white/10"
+        className="flex items-center gap-2 bg-gradient-to-r from-rose-600 to-red-600 text-[#151515] text-sm font-bold px-4 py-2.5 rounded-none shadow-lg shadow-rose-500/30 hover:scale-105 active:scale-95 transition-all border border-[#e5e5e5]"
       >
         <Plus className="h-4 w-4" /> הוסף הוצאה
       </button>
@@ -41,13 +41,12 @@ export function AddExpenseDialog({ projects }: { projects: { id: string; title: 
       {open && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" dir="rtl">
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setOpen(false)} />
-          <div className="relative w-full max-w-md rounded-3xl border border-white/10 shadow-2xl p-6 flex flex-col gap-4"
-            style={{ background: "linear-gradient(135deg, #1a0a0a 0%, #2d1010 100%)" }}>
+          <div className="relative w-full max-w-md border border-[#151515] bg-white p-6 flex flex-col gap-4">
 
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-black text-white">הוסף הוצאה 💸</h2>
-              <button onClick={() => setOpen(false)} className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20">
-                <X className="h-4 w-4 text-white" />
+              <h2 className="text-lg font-black text-[#151515]">הוסף הוצאה 💸</h2>
+              <button onClick={() => setOpen(false)} className="w-8 h-8 rounded-none bg-white/10 flex items-center justify-center hover:bg-white/20">
+                <X className="h-4 w-4 text-[#151515]" />
               </button>
             </div>
 
@@ -87,10 +86,10 @@ export function AddExpenseDialog({ projects }: { projects: { id: string; title: 
 
               <input name="notes" placeholder="הערות (אופציונלי)" className="input-dark" />
 
-              {error && <p className="text-red-400 text-xs bg-red-500/10 border border-red-500/20 rounded-xl px-3 py-2">{error}</p>}
+              {error && <p className="text-red-400 text-xs bg-red-500/10 border border-red-500/20 rounded-none px-3 py-2">{error}</p>}
 
               <button type="submit" disabled={isPending}
-                className="w-full bg-gradient-to-r from-rose-600 to-red-600 text-white font-bold py-3 rounded-2xl shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60 mt-1">
+                className="w-full bg-gradient-to-r from-rose-600 to-red-600 text-[#151515] font-bold py-3 rounded-none shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-60 mt-1">
                 {isPending ? "שומר..." : "שמור הוצאה"}
               </button>
             </form>
@@ -116,3 +115,4 @@ export function AddExpenseDialog({ projects }: { projects: { id: string; title: 
     </>
   )
 }
+

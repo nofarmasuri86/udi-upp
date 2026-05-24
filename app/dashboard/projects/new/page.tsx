@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+﻿import { createClient } from "@/lib/supabase/server"
 import { ProjectForm } from "../_components/project-form"
 import { createProjectAction } from "@/app/actions/projects"
 import Link from "next/link"
@@ -48,3 +48,4 @@ export default async function NewProjectPage({
     </div>
   )
 }
+

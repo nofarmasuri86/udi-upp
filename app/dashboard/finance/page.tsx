@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+﻿import { createClient } from "@/lib/supabase/server"
 import { EXPENSE_CATEGORY_LABELS } from "@/lib/finance-constants"
 import { AddExpenseDialog } from "./_components/add-expense-dialog"
 import { Trash2, TrendingUp, TrendingDown, DollarSign } from "lucide-react"
@@ -53,14 +53,14 @@ export default async function FinancePage({
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl font-black text-white">כספים 📊</h1>
-          <p className="text-blue-300/70 text-sm">הכנסות והוצאות {isCurrentYear ? "השנה" : year}</p>
+          <h1 className="text-2xl font-black text-[#151515]">כספים 📊</h1>
+          <p className="text-[#8B1A1A]/70 text-sm">הכנסות והוצאות {isCurrentYear ? "השנה" : year}</p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 bg-white/[0.05] border border-white/10 rounded-xl px-1 py-1">
+          <div className="flex items-center gap-1 bg-white border border-[#e5e5e5] rounded-none px-1 py-1">
             {[currentYear - 1, currentYear].map(y => (
               <a key={y} href={`/dashboard/finance?year=${y}`}
-                className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all ${y === year ? "bg-blue-500 text-white shadow-md" : "text-white/50 hover:text-white"}`}>
+                className={`px-3 py-1.5 rounded-none text-sm font-bold transition-all ${y === year ? "bg-blue-500 text-[#151515] shadow-md" : "text-white/50 hover:text-[#151515]"}`}>
                 {y}
               </a>
             ))}
@@ -71,33 +71,33 @@ export default async function FinancePage({
 
       {/* KPI cards */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl bg-green-500/10 border border-green-500/30 p-4 text-white">
+        <div className="rounded-none bg-green-500/10 border border-green-500/30 p-4 text-[#151515]">
           <div className="flex items-center gap-1.5 mb-2">
             <TrendingUp className="h-4 w-4 text-green-400" />
             <span className="text-xs font-semibold text-green-300">הכנסות</span>
           </div>
           <p className="text-xl font-black">{fmt(totalIncome)}</p>
         </div>
-        <div className="rounded-2xl bg-red-500/10 border border-red-500/30 p-4 text-white">
+        <div className="rounded-none bg-red-500/10 border border-red-500/30 p-4 text-[#151515]">
           <div className="flex items-center gap-1.5 mb-2">
             <TrendingDown className="h-4 w-4 text-red-400" />
             <span className="text-xs font-semibold text-red-300">הוצאות</span>
           </div>
           <p className="text-xl font-black">{fmt(totalExpenses)}</p>
         </div>
-        <div className={`rounded-2xl border p-4 text-white ${profit >= 0 ? "bg-blue-500/10 border-blue-500/30" : "bg-red-900/20 border-red-700/30"}`}>
+        <div className={`rounded-none border p-4 text-[#151515] ${profit >= 0 ? "bg-blue-500/10 border-blue-500/30" : "bg-red-900/20 border-red-700/30"}`}>
           <div className="flex items-center gap-1.5 mb-2">
-            <DollarSign className="h-4 w-4 text-blue-400" />
-            <span className="text-xs font-semibold text-blue-300">רווח</span>
+            <DollarSign className="h-4 w-4 text-[#8B1A1A]" />
+            <span className="text-xs font-semibold text-[#8B1A1A]">רווח</span>
           </div>
-          <p className={`text-xl font-black ${profit >= 0 ? "text-white" : "text-red-300"}`}>{fmt(profit)}</p>
+          <p className={`text-xl font-black ${profit >= 0 ? "text-[#151515]" : "text-red-300"}`}>{fmt(profit)}</p>
         </div>
       </div>
 
       {/* Monthly chart */}
       <div>
-        <h2 className="text-base font-black text-white mb-3">תצוגה חודשית</h2>
-        <div className="rounded-2xl bg-white/[0.03] border border-white/[0.07] p-4 overflow-x-auto">
+        <h2 className="text-base font-black text-[#151515] mb-3">תצוגה חודשית</h2>
+        <div className="rounded-none bg-white border border-[#e5e5e5] p-4 overflow-x-auto">
           <div className="flex gap-2 min-w-[560px]">
             {months.map((m) => {
               const incomePct  = maxVal > 0 ? (m.income   / maxVal) * 100 : 0
@@ -133,52 +133,52 @@ export default async function FinancePage({
 
       {/* Monthly detail table */}
       <div>
-        <h2 className="text-base font-black text-white mb-3">פירוט חודשי</h2>
-        <div className="rounded-2xl bg-white/[0.03] border border-white/[0.07] overflow-hidden">
-          <div className="grid grid-cols-4 px-4 py-2 border-b border-white/[0.06] text-[11px] font-bold text-white/40">
+        <h2 className="text-base font-black text-[#151515] mb-3">פירוט חודשי</h2>
+        <div className="rounded-none bg-white border border-[#e5e5e5] overflow-hidden">
+          <div className="grid grid-cols-4 px-4 py-2 border-b border-[#e5e5e5] text-[11px] font-bold text-white/40">
             <span>חודש</span><span className="text-center">הכנסות</span><span className="text-center">הוצאות</span><span className="text-left">רווח</span>
           </div>
           {months.map((m) => {
             const mProfit = m.income - m.expenses
             const hasData = m.income > 0 || m.expenses > 0
             return (
-              <div key={m.month} className={`grid grid-cols-4 px-4 py-3 border-b border-white/[0.04] last:border-b-0 ${!hasData ? "opacity-30" : ""}`}>
-                <span className="text-white text-sm font-semibold">{MONTH_NAMES[m.month]}</span>
+              <div key={m.month} className={`grid grid-cols-4 px-4 py-3 border-b border-[#e5e5e5] last:border-b-0 ${!hasData ? "opacity-30" : ""}`}>
+                <span className="text-[#151515] text-sm font-semibold">{MONTH_NAMES[m.month]}</span>
                 <span className="text-green-400 text-sm font-bold text-center">{m.income > 0 ? fmt(m.income) : "—"}</span>
                 <span className="text-red-400 text-sm font-bold text-center">{m.expenses > 0 ? fmt(m.expenses) : "—"}</span>
-                <span className={`text-sm font-black text-left ${mProfit >= 0 ? "text-blue-300" : "text-red-400"}`}>
+                <span className={`text-sm font-black text-left ${mProfit >= 0 ? "text-[#8B1A1A]" : "text-red-400"}`}>
                   {hasData ? fmt(mProfit) : "—"}
                 </span>
               </div>
             )
           })}
           {/* Total row */}
-          <div className="grid grid-cols-4 px-4 py-3 bg-white/[0.04] border-t border-white/[0.08]">
-            <span className="text-white text-sm font-black">סה״כ {year}</span>
+          <div className="grid grid-cols-4 px-4 py-3 bg-white border-t border-[#e5e5e5]">
+            <span className="text-[#151515] text-sm font-black">סה״כ {year}</span>
             <span className="text-green-400 text-sm font-black text-center">{fmt(totalIncome)}</span>
             <span className="text-red-400 text-sm font-black text-center">{fmt(totalExpenses)}</span>
-            <span className={`text-sm font-black text-left ${profit >= 0 ? "text-blue-300" : "text-red-400"}`}>{fmt(profit)}</span>
+            <span className={`text-sm font-black text-left ${profit >= 0 ? "text-[#8B1A1A]" : "text-red-400"}`}>{fmt(profit)}</span>
           </div>
         </div>
       </div>
 
       {/* Recent expenses list */}
       <div>
-        <h2 className="text-base font-black text-white mb-3">הוצאות אחרונות</h2>
+        <h2 className="text-base font-black text-[#151515] mb-3">הוצאות אחרונות</h2>
         {expenses.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/10 py-10 flex flex-col items-center gap-2">
+          <div className="rounded-none border border-dashed border-[#e5e5e5] py-10 flex flex-col items-center gap-2">
             <span className="text-3xl">💸</span>
             <p className="text-white/30 text-sm">אין הוצאות רשומות</p>
           </div>
         ) : (
           <div className="flex flex-col gap-2">
             {expenses.map((exp) => (
-              <div key={exp.id} className="rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-red-500/15 border border-red-500/20 flex items-center justify-center text-lg shrink-0">
+              <div key={exp.id} className="rounded-none bg-white border border-[#e5e5e5] px-4 py-3 flex items-center gap-3">
+                <div className="w-9 h-9 rounded-none bg-red-500/15 border border-red-500/20 flex items-center justify-center text-lg shrink-0">
                   💸
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm font-bold truncate">{exp.description}</p>
+                  <p className="text-[#151515] text-sm font-bold truncate">{exp.description}</p>
                   <p className="text-white/40 text-xs mt-0.5">
                     {EXPENSE_CATEGORY_LABELS[exp.category as keyof typeof EXPENSE_CATEGORY_LABELS] ?? exp.category}
                     {" · "}
@@ -188,7 +188,7 @@ export default async function FinancePage({
                 <div className="flex items-center gap-2 shrink-0">
                   <span className="text-red-300 font-black text-base">₪{exp.amount.toLocaleString("he-IL")}</span>
                   <form action={deleteExpenseAction.bind(null, exp.id)}>
-                    <button type="submit" className="w-7 h-7 rounded-lg bg-white/[0.05] hover:bg-red-500/20 transition-colors flex items-center justify-center">
+                    <button type="submit" className="w-7 h-7 rounded-none bg-white hover:bg-red-500/20 transition-colors flex items-center justify-center">
                       <Trash2 className="h-3.5 w-3.5 text-white/30 hover:text-red-400" />
                     </button>
                   </form>
@@ -201,3 +201,4 @@ export default async function FinancePage({
     </div>
   )
 }
+

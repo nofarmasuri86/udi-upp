@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+﻿import { createClient } from "@/lib/supabase/server"
 import { GalleryClient } from "./_components/gallery-client"
 
 async function getGalleryData() {
@@ -56,3 +56,4 @@ export default async function GalleryPage() {
     </div>
   )
 }
+

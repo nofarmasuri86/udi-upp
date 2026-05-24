@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useTransition, useRef } from "react"
 import { Plus, Trash2, Edit2, Check, X, AlertTriangle } from "lucide-react"
@@ -56,7 +56,7 @@ export function CatalogManager({ catalog, staleIds }: { catalog: CatalogItem[]; 
       {/* Add button */}
       <div className="flex justify-end">
         <button onClick={() => { setShowAdd(v => !v); setEditId(null) }}
-          className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-violet-600 text-white text-sm font-bold px-4 py-2 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all border border-white/10">
+          className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-violet-600 text-[#151515] text-sm font-bold px-4 py-2 rounded-none shadow-lg hover:scale-105 active:scale-95 transition-all border border-[#e5e5e5]">
           <Plus className="h-4 w-4" /> הוסף פריט
         </button>
       </div>
@@ -69,7 +69,7 @@ export function CatalogManager({ catalog, staleIds }: { catalog: CatalogItem[]; 
 
       {/* Catalog items by category */}
       {catalog.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-white/10 py-10 flex flex-col items-center gap-2">
+        <div className="rounded-none border border-dashed border-[#e5e5e5] py-10 flex flex-col items-center gap-2">
           <span className="text-3xl">📦</span>
           <p className="text-white/30 text-sm">קטלוג ריק — הוסף פריטים ראשונים</p>
         </div>
@@ -83,19 +83,19 @@ export function CatalogManager({ catalog, staleIds }: { catalog: CatalogItem[]; 
                 return (
                   <div key={item.id}>
                     {editId === item.id ? (
-                      <div className="rounded-xl bg-white/[0.05] border border-white/10 p-3">
+                      <div className="rounded-none bg-white border border-[#e5e5e5] p-3">
                         <CatalogForm formRef={formRef} onSubmit={handleSave} isPending={isPending}
                           error={error} onCancel={() => setEditId(null)} defaultValues={item} />
                       </div>
                     ) : (
-                      <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] px-3 py-2.5 flex items-center gap-2">
+                      <div className="rounded-none bg-white border border-[#e5e5e5] px-3 py-2.5 flex items-center gap-2">
                         {isStale && (
-                          <AlertTriangle className="h-3.5 w-3.5 text-amber-400 shrink-0" aria-label="מחיר לא עודכן מזה 30 יום" />
+                          <AlertTriangle className="h-3.5 w-3.5 text-[#8B1A1A] shrink-0" aria-label="מחיר לא עודכן מזה 30 יום" />
                         )}
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className="text-white text-sm font-semibold truncate">{item.name}</span>
-                            <span className="text-amber-300 font-black text-sm shrink-0">
+                            <span className="text-[#151515] text-sm font-semibold truncate">{item.name}</span>
+                            <span className="text-[#8B1A1A] font-black text-sm shrink-0">
                               ₪{item.unit_price.toLocaleString("he-IL")}<span className="text-white/30 font-normal text-xs">/{item.unit}</span>
                             </span>
                           </div>
@@ -103,12 +103,12 @@ export function CatalogManager({ catalog, staleIds }: { catalog: CatalogItem[]; 
                         </div>
                         <div className="flex items-center gap-1 shrink-0">
                           <button onClick={() => { setEditId(item.id); setShowAdd(false) }}
-                            className="w-7 h-7 rounded-lg bg-white/[0.05] hover:bg-white/10 flex items-center justify-center transition-colors">
+                            className="w-7 h-7 rounded-none bg-white hover:bg-white/10 flex items-center justify-center transition-colors">
                             <Edit2 className="h-3.5 w-3.5 text-white/40" />
                           </button>
                           <button onClick={() => handleDelete(item.id)} disabled={isPending}
-                            className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
-                              confirmDelete === item.id ? "bg-red-500/30 text-red-300" : "bg-white/[0.05] text-white/30 hover:bg-red-500/20 hover:text-red-400"
+                            className={`w-7 h-7 rounded-none flex items-center justify-center transition-colors ${
+                              confirmDelete === item.id ? "bg-red-500/30 text-red-300" : "bg-white text-white/30 hover:bg-red-500/20 hover:text-red-400"
                             }`}>
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
@@ -152,14 +152,14 @@ function CatalogForm({
         <input name="notes" placeholder="הערות (אופציונלי)" defaultValue={defaultValues?.notes ?? ""}
           className="catalog-input" />
       </div>
-      {error && <p className="text-red-400 text-xs bg-red-500/10 border border-red-500/20 rounded-xl px-3 py-2">{error}</p>}
+      {error && <p className="text-red-400 text-xs bg-red-500/10 border border-red-500/20 rounded-none px-3 py-2">{error}</p>}
       <div className="flex gap-2">
         <button type="submit" disabled={isPending}
-          className="flex items-center gap-1.5 bg-purple-600 text-white text-sm font-bold px-4 py-2 rounded-xl hover:bg-purple-500 transition-colors disabled:opacity-60">
+          className="flex items-center gap-1.5 bg-purple-600 text-[#151515] text-sm font-bold px-4 py-2 rounded-none hover:bg-purple-500 transition-colors disabled:opacity-60">
           <Check className="h-4 w-4" /> {isPending ? "שומר..." : "שמור"}
         </button>
         <button type="button" onClick={onCancel}
-          className="flex items-center gap-1.5 bg-white/[0.06] text-white/60 text-sm font-semibold px-4 py-2 rounded-xl hover:bg-white/10 transition-colors">
+          className="flex items-center gap-1.5 bg-white text-white/60 text-sm font-semibold px-4 py-2 rounded-none hover:bg-white/10 transition-colors">
           <X className="h-4 w-4" /> ביטול
         </button>
       </div>
@@ -175,3 +175,4 @@ function CatalogForm({
     </form>
   )
 }
+

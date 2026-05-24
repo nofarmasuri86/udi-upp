@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useTransition } from "react"
 import { Copy, Check, Sparkles } from "lucide-react"
@@ -101,7 +101,7 @@ export function GeneratePostSheet({
                 <button
                   key={p.value}
                   onClick={() => { setPlatform(p.value); setGeneratedText(""); setSaved(false) }}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-medium transition-all ${
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-none border-2 py-3 text-sm font-medium transition-all ${
                     platform === p.value
                       ? "border-primary bg-primary text-primary-foreground"
                       : "border-border text-muted-foreground hover:border-muted-foreground"
@@ -174,7 +174,7 @@ export function GeneratePostSheet({
           )}
 
           {error && (
-            <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+            <div className="rounded-none bg-destructive/10 p-3 text-sm text-destructive">
               {error}
             </div>
           )}
@@ -183,3 +183,4 @@ export function GeneratePostSheet({
     </Sheet>
   )
 }
+

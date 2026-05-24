@@ -1,4 +1,4 @@
-import Link from "next/link"
+﻿import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
 import { TrendingUp, ArrowLeft, CalendarDays } from "lucide-react"
 import { type ProjectStatus } from "@/types"
@@ -284,3 +284,4 @@ export default async function DashboardPage() {
     </div>
   )
 }
+

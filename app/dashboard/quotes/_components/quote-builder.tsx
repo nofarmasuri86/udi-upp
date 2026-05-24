@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState, useTransition } from "react"
 import { Plus, Trash2, Copy, Check, AlertTriangle, ShoppingCart, MessageSquare, Save } from "lucide-react"
@@ -128,42 +128,41 @@ ${notes ? `\n📝 הערות: ${notes}` : ""}
   )
   const categories = [...new Set(catalog.map(c => c.category))]
 
+  const inputCls = "w-full border border-[#151515] bg-[#f3f3f3] px-3 py-2 text-[#151515] text-sm placeholder:text-[#151515]/30 outline-none focus:border-[#8B1A1A] focus:bg-white transition-colors"
+
   return (
-    <div className="flex flex-col gap-5" dir="rtl">
+    <div className="flex flex-col gap-4" dir="rtl">
 
       {/* Stale price alert */}
       {staleLines.length > 0 && (
-        <div className="rounded-2xl bg-amber-500/10 border border-amber-500/30 px-4 py-3 flex items-start gap-3">
-          <AlertTriangle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+        <div className="border border-amber-600 bg-amber-50 px-4 py-3 flex items-start gap-3">
+          <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
           <div>
-            <p className="text-amber-300 text-sm font-bold">שים לב — מחירים לא מעודכנים</p>
-            <p className="text-amber-300/70 text-xs mt-0.5">
-              {staleLines.map(l => l.name).join(", ")} — המחירים לא עודכנו יותר מ-30 יום. מומלץ לבדוק לפני שליחה.
+            <p className="text-amber-800 text-sm font-bold">שים לב — מחירים לא מעודכנים</p>
+            <p className="text-amber-700 text-xs mt-0.5">
+              {staleLines.map(l => l.name).join(", ")} — המחירים לא עודכנו יותר מ-30 יום.
             </p>
           </div>
         </div>
       )}
 
       {/* Basic info */}
-      <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4 flex flex-col gap-3">
-        <h3 className="text-sm font-black text-white">פרטי ההצעה</h3>
+      <div className="border border-[#151515] bg-white p-4 flex flex-col gap-3">
+        <h3 className="text-sm font-black text-[#151515] uppercase tracking-wider border-b border-[#e5e5e5] pb-2">פרטי ההצעה</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="text-xs text-blue-300 font-semibold mb-1 block">כותרת *</label>
-            <input value={title} onChange={e => setTitle(e.target.value)} placeholder="ארון מטבח / מדפי ספרים..."
-              className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-blue-500/50" />
+            <label className="text-xs font-bold text-[#8B1A1A] uppercase tracking-wider mb-1 block">כותרת *</label>
+            <input value={title} onChange={e => setTitle(e.target.value)} placeholder="התקנת ארון / הרכבת מדפים..." className={inputCls} />
           </div>
           <div>
-            <label className="text-xs text-blue-300 font-semibold mb-1 block">שם הלקוח</label>
-            <input value={clientName} onChange={e => setClientName(e.target.value)} placeholder="ישראל ישראלי"
-              className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-blue-500/50" />
+            <label className="text-xs font-bold text-[#8B1A1A] uppercase tracking-wider mb-1 block">שם הלקוח</label>
+            <input value={clientName} onChange={e => setClientName(e.target.value)} placeholder="ישראל ישראלי" className={inputCls} />
           </div>
         </div>
         {projects.length > 0 && (
           <div>
-            <label className="text-xs text-blue-300 font-semibold mb-1 block">קשר לפרויקט</label>
-            <select value={projectId} onChange={e => setProjectId(e.target.value)}
-              className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 text-white text-sm outline-none focus:border-blue-500/50 [&>option]:bg-[#0d1535]">
+            <label className="text-xs font-bold text-[#8B1A1A] uppercase tracking-wider mb-1 block">קשר לפרויקט</label>
+            <select value={projectId} onChange={e => setProjectId(e.target.value)} className={inputCls}>
               <option value="">— ללא פרויקט —</option>
               {projects.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
             </select>
@@ -171,29 +170,27 @@ ${notes ? `\n📝 הערות: ${notes}` : ""}
         )}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs text-blue-300 font-semibold mb-1 block">מרווח רווח (%)</label>
-            <input type="number" min={0} max={100} value={marginPct} onChange={e => setMarginPct(Number(e.target.value))}
-              className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 text-white text-sm outline-none focus:border-blue-500/50" />
+            <label className="text-xs font-bold text-[#8B1A1A] uppercase tracking-wider mb-1 block">מרווח רווח (%)</label>
+            <input type="number" min={0} max={100} value={marginPct} onChange={e => setMarginPct(Number(e.target.value))} className={inputCls} />
           </div>
           <div>
-            <label className="text-xs text-blue-300 font-semibold mb-1 block">תוקף (ימים)</label>
-            <input type="number" min={1} value={validDays} onChange={e => setValidDays(Number(e.target.value))}
-              className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 text-white text-sm outline-none focus:border-blue-500/50" />
+            <label className="text-xs font-bold text-[#8B1A1A] uppercase tracking-wider mb-1 block">תוקף (ימים)</label>
+            <input type="number" min={1} value={validDays} onChange={e => setValidDays(Number(e.target.value))} className={inputCls} />
           </div>
         </div>
       </div>
 
       {/* Line items */}
-      <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4 flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-black text-white">פריטי העבודה</h3>
+      <div className="border border-[#151515] bg-white p-4 flex flex-col gap-3">
+        <div className="flex items-center justify-between border-b border-[#e5e5e5] pb-2">
+          <h3 className="text-sm font-black text-[#151515] uppercase tracking-wider">פריטי העבודה</h3>
           <div className="flex gap-2">
             <button onClick={() => setShowCatalog(v => !v)}
-              className="flex items-center gap-1.5 text-xs font-bold text-blue-300 bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 rounded-xl hover:bg-blue-500/20 transition-colors">
+              className="flex items-center gap-1.5 text-xs font-bold text-[#8B1A1A] border border-[#8B1A1A] px-3 py-1.5 hover:bg-[#8B1A1A] hover:text-[#f3f3f3] transition-colors">
               <ShoppingCart className="h-3.5 w-3.5" /> מהקטלוג
             </button>
             <button onClick={addCustomLine}
-              className="flex items-center gap-1.5 text-xs font-bold text-white/60 bg-white/[0.06] border border-white/10 px-3 py-1.5 rounded-xl hover:bg-white/10 transition-colors">
+              className="flex items-center gap-1.5 text-xs font-bold text-[#151515] border border-[#151515] px-3 py-1.5 hover:bg-[#151515] hover:text-[#f3f3f3] transition-colors">
               <Plus className="h-3.5 w-3.5" /> פריט ידני
             </button>
           </div>
@@ -201,55 +198,55 @@ ${notes ? `\n📝 הערות: ${notes}` : ""}
 
         {/* Catalog picker */}
         {showCatalog && (
-          <div className="rounded-xl bg-white/[0.03] border border-white/[0.08] p-3 flex flex-col gap-2">
+          <div className="border border-[#e5e5e5] bg-[#f3f3f3] p-3 flex flex-col gap-2">
             <input value={catFilter} onChange={e => setCatFilter(e.target.value)} placeholder="חפש בקטלוג..."
-              className="w-full bg-white/[0.06] border border-white/10 rounded-lg px-3 py-2 text-white text-xs placeholder:text-white/30 outline-none" />
+              className="w-full border border-[#151515] bg-white px-3 py-1.5 text-[#151515] text-xs placeholder:text-[#151515]/30 outline-none focus:border-[#8B1A1A]" />
             <div className="flex gap-1.5 flex-wrap">
               {categories.map(cat => (
                 <button key={cat} onClick={() => setCatFilter(cat === catFilter ? "" : cat)}
-                  className={`text-[11px] font-bold px-2.5 py-1 rounded-full border transition-colors ${catFilter === cat ? "bg-blue-500 text-white border-blue-500" : "border-white/10 text-white/50 hover:border-white/20"}`}>
+                  className={`text-[11px] font-bold px-2.5 py-1 border transition-colors ${catFilter === cat ? "bg-[#8B1A1A] text-[#f3f3f3] border-[#8B1A1A]" : "border-[#151515] text-[#151515] hover:bg-[#151515] hover:text-[#f3f3f3]"}`}>
                   {cat}
                 </button>
               ))}
             </div>
-            <div className="max-h-48 overflow-y-auto flex flex-col gap-1">
+            <div className="max-h-48 overflow-y-auto flex flex-col gap-0.5">
               {filteredCatalog.map(item => (
                 <button key={item.id} onClick={() => addFromCatalog(item)}
-                  className="flex items-center justify-between px-3 py-2 rounded-lg hover:bg-white/[0.07] transition-colors text-right w-full group">
+                  className="flex items-center justify-between px-3 py-2 hover:bg-white border border-transparent hover:border-[#e5e5e5] transition-colors text-right w-full">
                   <div className="flex-1 min-w-0">
-                    <p className="text-white text-xs font-semibold truncate">{item.name}</p>
-                    <p className="text-white/40 text-[10px]">{item.category} · {item.unit}</p>
+                    <p className="text-[#151515] text-xs font-semibold truncate">{item.name}</p>
+                    <p className="text-[#151515]/50 text-[10px]">{item.category} · {item.unit}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    {staleIds.has(item.id) && <AlertTriangle className="h-3 w-3 text-amber-400" aria-label="מחיר לא מעודכן" />}
-                    <span className="text-amber-400 text-xs font-black">{fmt(item.unit_price)}</span>
-                    <span className="text-[10px] text-white/30">/{item.unit}</span>
+                    {staleIds.has(item.id) && <AlertTriangle className="h-3 w-3 text-amber-600" aria-label="מחיר לא מעודכן" />}
+                    <span className="text-[#8B1A1A] text-xs font-black">{fmt(item.unit_price)}</span>
+                    <span className="text-[10px] text-[#151515]/40">/{item.unit}</span>
                   </div>
                 </button>
               ))}
-              {filteredCatalog.length === 0 && <p className="text-white/30 text-xs text-center py-4">אין פריטים בקטלוג</p>}
+              {filteredCatalog.length === 0 && <p className="text-[#151515]/40 text-xs text-center py-4">אין פריטים בקטלוג</p>}
             </div>
           </div>
         )}
 
         {/* Line items table */}
         {lineItems.length > 0 && (
-          <div className="flex flex-col gap-1.5">
-            <div className="grid grid-cols-[1fr_60px_90px_70px_28px] gap-1 px-1 text-[10px] font-bold text-white/30">
+          <div className="flex flex-col gap-1">
+            <div className="grid grid-cols-[1fr_60px_90px_70px_28px] gap-1 px-1 text-[10px] font-black text-[#151515]/40 uppercase tracking-wider">
               <span>פריט</span><span className="text-center">כמות</span><span className="text-center">מחיר/יח׳</span><span className="text-left">סה״כ</span><span />
             </div>
             {lineItems.map(line => (
-              <div key={line._id} className={`grid grid-cols-[1fr_60px_90px_70px_28px] gap-1 items-center rounded-lg px-2 py-1.5 ${line.stale ? "bg-amber-500/5 border border-amber-500/20" : "bg-white/[0.03] border border-white/[0.05]"}`}>
+              <div key={line._id} className={`grid grid-cols-[1fr_60px_90px_70px_28px] gap-1 items-center px-2 py-2 border ${line.stale ? "bg-amber-50 border-amber-400" : "bg-[#f3f3f3] border-[#e5e5e5]"}`}>
                 <input value={line.name} onChange={e => updateLine(line._id, "name", e.target.value)}
                   placeholder="תיאור פריט"
-                  className="bg-transparent text-white text-xs outline-none placeholder:text-white/30 w-full" />
+                  className="bg-transparent text-[#151515] text-xs outline-none placeholder:text-[#151515]/30 w-full" />
                 <input type="number" min={0.01} step={0.01} value={line.qty} onChange={e => updateLine(line._id, "qty", Number(e.target.value))}
-                  className="bg-transparent text-white text-xs text-center outline-none w-full" />
+                  className="bg-transparent text-[#151515] text-xs text-center outline-none w-full" />
                 <input type="number" min={0} step={0.01} value={line.unit_price} onChange={e => updateLine(line._id, "unit_price", Number(e.target.value))}
-                  className="bg-transparent text-white text-xs text-center outline-none w-full" />
-                <span className="text-amber-400 text-xs font-bold text-left">{fmt(line.qty * line.unit_price)}</span>
-                <button onClick={() => removeLine(line._id)} className="w-6 h-6 flex items-center justify-center rounded hover:bg-red-500/20 transition-colors">
-                  <Trash2 className="h-3 w-3 text-white/30 hover:text-red-400" />
+                  className="bg-transparent text-[#151515] text-xs text-center outline-none w-full" />
+                <span className="text-[#8B1A1A] text-xs font-bold text-left">{fmt(line.qty * line.unit_price)}</span>
+                <button onClick={() => removeLine(line._id)} className="w-6 h-6 flex items-center justify-center hover:bg-red-100 transition-colors">
+                  <Trash2 className="h-3 w-3 text-[#151515]/30 hover:text-[#8B1A1A]" />
                 </button>
               </div>
             ))}
@@ -257,42 +254,42 @@ ${notes ? `\n📝 הערות: ${notes}` : ""}
         )}
 
         {lineItems.length === 0 && (
-          <div className="py-6 flex flex-col items-center gap-2">
-            <p className="text-white/20 text-sm">הוסף פריטים מהקטלוג או ידנית</p>
+          <div className="py-6 flex flex-col items-center gap-2 border border-dashed border-[#151515]/20">
+            <p className="text-[#151515]/30 text-sm">הוסף פריטים מהקטלוג או ידנית</p>
           </div>
         )}
       </div>
 
       {/* Totals */}
       {lineItems.length > 0 && (
-        <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4 flex flex-col gap-2">
-          <div className="flex justify-between text-sm text-white/60">
+        <div className="border border-[#151515] bg-white p-4 flex flex-col gap-2">
+          <div className="flex justify-between text-sm text-[#151515]/60">
             <span>סכום ביניים</span><span>{fmt(subtotal)}</span>
           </div>
-          <div className="flex justify-between text-sm text-white/60">
+          <div className="flex justify-between text-sm text-[#151515]/60">
             <span>מרווח ({marginPct}%)</span><span>+{fmt(marginAmt)}</span>
           </div>
-          <div className="flex justify-between text-xl font-black text-white border-t border-white/10 pt-2 mt-1">
-            <span>סה״כ לתשלום</span><span className="text-amber-400">{fmt(total)}</span>
+          <div className="flex justify-between text-xl font-black text-[#151515] border-t border-[#e5e5e5] pt-2 mt-1">
+            <span>סה״כ לתשלום</span><span className="text-[#8B1A1A]">{fmt(total)}</span>
           </div>
         </div>
       )}
 
       {/* Materials checklist */}
       {checklist.length > 0 && (
-        <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4 flex flex-col gap-3">
-          <h3 className="text-sm font-black text-white">✅ רשימת ציוד לרכישה</h3>
+        <div className="border border-[#151515] bg-white p-4 flex flex-col gap-3">
+          <h3 className="text-sm font-black text-[#151515] uppercase tracking-wider border-b border-[#e5e5e5] pb-2">רשימת ציוד לרכישה</h3>
           <div className="flex flex-col gap-2">
             {checklist.map(item => (
               <div key={item._id} className="flex items-center gap-3">
                 <button onClick={() => toggleBought(item._id)}
-                  className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all shrink-0 ${item.bought ? "bg-green-500 border-green-500" : "border-white/20 hover:border-white/40"}`}>
-                  {item.bought && <Check className="h-3 w-3 text-white" />}
+                  className={`w-5 h-5 border-2 flex items-center justify-center transition-all shrink-0 ${item.bought ? "bg-green-600 border-green-600" : "border-[#151515] hover:border-[#8B1A1A]"}`}>
+                  {item.bought && <Check className="h-3 w-3 text-[#151515]" />}
                 </button>
-                <span className={`text-sm flex-1 ${item.bought ? "line-through text-white/30" : "text-white"}`}>
+                <span className={`text-sm flex-1 ${item.bought ? "line-through text-[#151515]/30" : "text-[#151515]"}`}>
                   {item.name} — {item.qty} {item.unit}
                 </span>
-                <button onClick={() => removeChecklistItem(item._id)} className="text-white/20 hover:text-red-400 transition-colors">
+                <button onClick={() => removeChecklistItem(item._id)} className="text-[#151515]/20 hover:text-[#8B1A1A] transition-colors">
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>
               </div>
@@ -302,43 +299,44 @@ ${notes ? `\n📝 הערות: ${notes}` : ""}
       )}
 
       {/* Notes */}
-      <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4">
-        <label className="text-xs text-blue-300 font-semibold mb-2 block">הערות / שאלות ללקוח</label>
+      <div className="border border-[#151515] bg-white p-4">
+        <label className="text-xs font-bold text-[#8B1A1A] uppercase tracking-wider mb-2 block">הערות / שאלות ללקוח</label>
         <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={3}
-          placeholder={"שאלות לדיוק:\n• גודל מדויק?\n• סוג עץ מועדף?\n• צבע גימור?"}
-          className="w-full bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 text-white text-sm placeholder:text-white/30 outline-none focus:border-blue-500/50 resize-none" />
+          placeholder={"שאלות לדיוק:\n• גודל מדויק?\n• צבע גימור?"}
+          className="w-full border border-[#e5e5e5] bg-[#f3f3f3] px-3 py-2 text-[#151515] text-sm placeholder:text-[#151515]/30 outline-none focus:border-[#8B1A1A] resize-none" />
       </div>
 
-      {/* Message preview + actions */}
+      {/* WhatsApp message */}
       {lineItems.length > 0 && (
-        <div className="rounded-2xl bg-white/[0.04] border border-white/[0.08] p-4 flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <MessageSquare className="h-4 w-4 text-green-400" />
-            <h3 className="text-sm font-black text-white">הודעה לשליחה</h3>
+        <div className="border border-[#151515] bg-white p-4 flex flex-col gap-3">
+          <div className="flex items-center gap-2 border-b border-[#e5e5e5] pb-2">
+            <MessageSquare className="h-4 w-4 text-[#8B1A1A]" />
+            <h3 className="text-sm font-black text-[#151515] uppercase tracking-wider">הודעה לשליחה</h3>
           </div>
-          <pre className="bg-black/30 rounded-xl p-3 text-white/70 text-xs whitespace-pre-wrap leading-relaxed border border-white/[0.05] max-h-48 overflow-y-auto font-sans">
+          <pre className="border border-[#e5e5e5] bg-[#f3f3f3] p-3 text-[#151515]/70 text-xs whitespace-pre-wrap leading-relaxed max-h-48 overflow-y-auto font-sans">
             {generateMessage()}
           </pre>
           <div className="flex gap-2 flex-wrap">
             <button onClick={copyMessage}
-              className={`flex items-center gap-2 text-sm font-bold px-4 py-2.5 rounded-2xl border transition-all ${copied ? "bg-green-500/20 border-green-500/30 text-green-300" : "bg-white/[0.07] border-white/10 text-white hover:bg-white/10"}`}>
+              className={`flex items-center gap-2 text-sm font-bold px-4 py-2.5 border transition-all ${copied ? "bg-green-600 border-green-600 text-[#151515]" : "border-[#151515] text-[#151515] hover:bg-[#151515] hover:text-[#f3f3f3]"}`}>
               {copied ? <><Check className="h-4 w-4" />הועתק!</> : <><Copy className="h-4 w-4" />העתק הודעה</>}
             </button>
             <a href={`https://wa.me/?text=${encodeURIComponent(generateMessage())}`} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm font-bold px-4 py-2.5 rounded-2xl bg-green-600/80 border border-green-500/30 text-white hover:bg-green-600 transition-all">
+              className="flex items-center gap-2 text-sm font-bold px-4 py-2.5 bg-green-600 text-[#151515] border border-green-600 hover:bg-green-700 transition-all">
               📱 שלח בוואטסאפ
             </a>
           </div>
         </div>
       )}
 
-      {error && <p className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2">{error}</p>}
+      {error && <p className="text-[#8B1A1A] text-sm font-semibold border border-[#8B1A1A] bg-[#8B1A1A]/5 px-4 py-2">{error}</p>}
 
-      {/* Save button */}
+      {/* Save */}
       <button onClick={handleSave} disabled={isPending}
-        className={`flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-black text-base border transition-all ${saved ? "bg-green-500/20 border-green-500/30 text-green-300" : "bg-gradient-to-r from-blue-600 via-indigo-500 to-violet-600 border-white/10 text-white shadow-lg shadow-blue-500/30 hover:scale-[1.02] active:scale-[0.98]"} disabled:opacity-60`}>
-        {isPending ? "שומר..." : saved ? <><Check className="h-5 w-5" />נשמר בהצלחה!</> : <><Save className="h-5 w-5" />שמור הצעת מחיר</>}
+        className={`flex items-center justify-center gap-2 w-full py-3.5 font-black text-sm uppercase tracking-widest border transition-all ${saved ? "bg-green-600 border-green-600 text-[#151515]" : "bg-[#8B1A1A] border-[#8B1A1A] text-[#f3f3f3] hover:bg-[#6e1414] active:scale-[0.98]"} disabled:opacity-60`}>
+        {isPending ? "שומר..." : saved ? <><Check className="h-5 w-5" />נשמר!</> : <><Save className="h-5 w-5" />שמור הצעת מחיר</>}
       </button>
     </div>
   )
 }
+

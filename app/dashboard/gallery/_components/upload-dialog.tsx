@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useRef, useState, useTransition } from "react"
 import { ImagePlus, X, Upload } from "lucide-react"
@@ -77,7 +77,7 @@ export function UploadDialog({ open, onOpenChange, projects }: UploadDialogProps
         <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Image picker */}
           <div
-            className="relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-muted-foreground/30 bg-muted/30 cursor-pointer overflow-hidden"
+            className="relative flex flex-col items-center justify-center rounded-none border-2 border-dashed border-muted-foreground/30 bg-muted/30 cursor-pointer overflow-hidden"
             style={{ minHeight: 180 }}
             onClick={() => fileRef.current?.click()}
           >
@@ -160,3 +160,4 @@ export function UploadDialog({ open, onOpenChange, projects }: UploadDialogProps
     </Dialog>
   )
 }
+

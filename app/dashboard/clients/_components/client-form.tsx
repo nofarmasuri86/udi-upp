@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useRef, useState, useTransition } from "react"
 import { Button } from "@/components/ui/button"
@@ -61,3 +61,4 @@ export function ClientForm({ client, action, onSuccess }: ClientFormProps) {
     </form>
   )
 }
+

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+﻿import { createClient } from "@/lib/supabase/server"
 import { QuoteBuilder } from "./_components/quote-builder"
 import { QuoteList } from "./_components/quote-list"
 import { CatalogManager } from "./_components/catalog-manager"
@@ -57,15 +57,15 @@ export default async function QuotesPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-black text-white">הצעות מחיר 📋</h1>
-        <p className="text-blue-300/70 text-sm">בניית הצעות מחיר וניהול קטלוג</p>
+        <h1 className="text-2xl font-black text-[#151515]">הצעות מחיר 📋</h1>
+        <p className="text-[#8B1A1A]/70 text-sm">בניית הצעות מחיר וניהול קטלוג</p>
       </div>
 
       {/* Quote Builder */}
       <div>
         <div className="flex items-center gap-2 mb-3">
-          <FileText className="h-4 w-4 text-amber-400" />
-          <h2 className="text-base font-black text-white">הצעה חדשה</h2>
+          <FileText className="h-4 w-4 text-[#8B1A1A]" />
+          <h2 className="text-base font-black text-[#151515]">הצעה חדשה</h2>
         </div>
         <QuoteBuilder catalog={catalog} projects={projects} staleIds={staleIds} />
       </div>
@@ -74,8 +74,8 @@ export default async function QuotesPage() {
       {quotes.length > 0 && (
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <FileText className="h-4 w-4 text-blue-400" />
-            <h2 className="text-base font-black text-white">הצעות קיימות</h2>
+            <FileText className="h-4 w-4 text-[#8B1A1A]" />
+            <h2 className="text-base font-black text-[#151515]">הצעות קיימות</h2>
           </div>
           <QuoteList quotes={quotes} />
         </div>
@@ -85,7 +85,7 @@ export default async function QuotesPage() {
       <div>
         <div className="flex items-center gap-2 mb-3">
           <BookOpen className="h-4 w-4 text-purple-400" />
-          <h2 className="text-base font-black text-white">קטלוג מחירים</h2>
+          <h2 className="text-base font-black text-[#151515]">קטלוג מחירים</h2>
         </div>
         <CatalogManager catalog={catalog} staleIds={staleIds} />
       </div>
@@ -93,3 +93,4 @@ export default async function QuotesPage() {
     </div>
   )
 }
+

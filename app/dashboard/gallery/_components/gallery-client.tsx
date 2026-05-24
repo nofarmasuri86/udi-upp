@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState } from "react"
 import { Camera } from "lucide-react"
@@ -40,7 +40,7 @@ export function GalleryClient({
       {/* Empty state */}
       {items.length === 0 ? (
         <div
-          className="flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed border-muted-foreground/20 py-20 text-center cursor-pointer"
+          className="flex flex-col items-center justify-center gap-4 rounded-none border-2 border-dashed border-muted-foreground/20 py-20 text-center cursor-pointer"
           onClick={() => setUploadOpen(true)}
           dir="rtl"
         >
@@ -70,3 +70,4 @@ export function GalleryClient({
     </>
   )
 }
+

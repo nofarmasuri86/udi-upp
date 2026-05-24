@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState } from "react"
 import { Plus } from "lucide-react"
@@ -32,3 +32,4 @@ export function AddClientButton() {
     </>
   )
 }
+

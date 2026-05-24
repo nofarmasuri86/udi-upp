@@ -1,4 +1,4 @@
-"use client"
+ï»¿"use client"
 
 import { useRef, useState, useTransition } from "react"
 import { Button } from "@/components/ui/button"
@@ -101,3 +101,4 @@ export function ProjectForm({ clients, defaultClientId, action, submitLabel = "×
     </form>
   )
 }
+

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+﻿import { createClient } from "@/lib/supabase/server"
 import { CalendarView } from "./_components/calendar-view"
 
 async function getProjectsForCalendar() {
@@ -43,3 +43,4 @@ export default async function CalendarPage() {
     </div>
   )
 }
+
