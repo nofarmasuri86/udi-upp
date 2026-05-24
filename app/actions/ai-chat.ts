@@ -4,6 +4,7 @@ import Anthropic from "@anthropic-ai/sdk"
 import { createClient } from "@/lib/supabase/server"
 import { PROJECT_STATUS_LABELS, PAYMENT_METHOD_LABELS } from "@/types"
 import type { PaymentMethod, ProjectStatus } from "@/types"
+import type { TaskType } from "@/app/actions/tasks"
 import { revalidatePath } from "next/cache"
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
@@ -11,11 +12,12 @@ const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 export type ChatMessage = { role: "user" | "assistant"; content: string }
 
 // ─── System Prompt ────────────────────────────────────────────
-const SYSTEM_PROMPT = `אתה "מנהל העבודה" — העוזר האישי של אודי, נגר ואמן עץ מאילת. אודי איש שטח, שונא ניירת.
+const SYSTEM_PROMPT = `אתה "מנהל העבודה" — העוזר האישי של אודי, קבלן הרכבות מאילת. אודי איש שטח, שונא ניירת.
 
 תפקידך:
 - לענות על שאלות על פרויקטים, לקוחות, תשלומים ולוח זמנים
 - לעדכן נתונים בדשבורד (הוספת לקוח, פרויקט, תשלום, עדכון סטטוס)
+- לנהל משימות ותזכורות (הוספה, הצגה) — כשאודי אומר "תזכיר לי", "הוסף למשימות", "רשום לי" — השתמש ב-add_task
 - לעזור בתמחור חכם ולמנוע הפסדים
 
 כללי טון: קצר, תכל'ס, גובה עיניים. שפה חברית ("קלטתי", "סגור", "אפשר ללכת לנוח"). ללא רשמיות.
@@ -105,6 +107,28 @@ const TOOLS: Anthropic.Tool[] = [
         material:     { type: "string", description: "חומר" },
       },
       required: ["project_name"],
+    },
+  },
+  {
+    name: "add_task",
+    description: "הוספת משימה/תזכורת לרשימת המשימות של אודי בדשבורד. השתמש כשאודי אומר 'תזכיר לי', 'הוסף למשימות', 'רשום לי לעשות' וכו'.",
+    input_schema: {
+      type: "object" as const,
+      properties: {
+        title:        { type: "string", description: "תיאור המשימה" },
+        type:         { type: "string", enum: ["daily", "weekly", "general"], description: "סוג: daily=יומי, weekly=שבועי, general=כללי" },
+        project_name: { type: "string", description: "שם פרויקט לשיוך (אופציונלי)" },
+      },
+      required: ["title"],
+    },
+  },
+  {
+    name: "list_tasks",
+    description: "הצגת רשימת המשימות הפתוחות של אודי",
+    input_schema: {
+      type: "object" as const,
+      properties: {},
+      required: [],
     },
   },
 ]
@@ -364,6 +388,43 @@ async function executeTool(name: string, input: Record<string, unknown>, userId:
     revalidatePath(`/dashboard/projects/${proj.id}`)
     revalidatePath("/dashboard/projects")
     return `עודכן פרויקט "${proj.title}"`
+  }
+
+  if (name === "add_task") {
+    let projectId: string | null = null
+    if (input.project_name) {
+      const { data: projs } = await supabase
+        .from("projects").select("id").eq("user_id", userId)
+        .ilike("title", `%${input.project_name}%`).limit(1)
+      projectId = projs?.[0]?.id ?? null
+    }
+    const { data, error } = await supabase.from("tasks").insert({
+      user_id: userId,
+      title: (input.title as string).trim(),
+      type: (input.type as TaskType) || "general",
+      project_id: projectId,
+      source: "agent",
+    }).select("title").single()
+    if (error) return `שגיאה: ${error.message}`
+    revalidatePath("/dashboard")
+    return `✅ נוספה משימה: "${data.title}"`
+  }
+
+  if (name === "list_tasks") {
+    const { data: tasks } = await supabase
+      .from("tasks").select("title, type, is_done")
+      .eq("user_id", userId).eq("is_done", false)
+      .order("created_at", { ascending: false }).limit(30)
+    if (!tasks?.length) return "אין משימות פתוחות כרגע 🎉"
+    const LABELS: Record<string, string> = { daily: "יומי", weekly: "שבועי", general: "כללי" }
+    const byType: Record<string, string[]> = {}
+    for (const t of tasks) {
+      if (!byType[t.type]) byType[t.type] = []
+      byType[t.type].push(t.title)
+    }
+    return Object.entries(byType)
+      .map(([type, titles]) => `**${LABELS[type] ?? type}:**\n${titles.map(t => `• ${t}`).join("\n")}`)
+      .join("\n\n")
   }
 
   return "פעולה לא מוכרת"

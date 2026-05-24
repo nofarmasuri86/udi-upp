@@ -5,6 +5,8 @@ import { type ProjectStatus } from "@/types"
 import { AddLeadDialog } from "@/components/add-lead-dialog"
 import { QuickGalleryUpload } from "@/components/quick-gallery-upload"
 import { WeeklyCalendarGrid, type CalendarEvent } from "@/components/weekly-calendar-grid"
+import { TasksWidget, type SmartSuggestion } from "./_components/tasks-widget"
+import type { Task } from "@/app/actions/tasks"
 
 type ProjectRow = {
   id: string
@@ -42,7 +44,7 @@ async function getDashboardData() {
   const weekEndStr = `${weekEnd.getFullYear()}-${String(weekEnd.getMonth() + 1).padStart(2, "0")}-${String(weekEnd.getDate()).padStart(2, "0")}`
   const todayStr = today.toISOString().split("T")[0]
 
-  const [clientsRes, projectsRes, paymentsRes, dueRes, followUpRes, quotesRes] = await Promise.all([
+  const [clientsRes, projectsRes, paymentsRes, dueRes, followUpRes, quotesRes, tasksRes] = await Promise.all([
     supabase.from("clients").select("id", { count: "exact", head: true }),
     supabase
       .from("projects")
@@ -70,10 +72,18 @@ async function getDashboardData() {
       .select("id, title, client:clients(name)")
       .eq("status", "new").is("price", null)
       .order("created_at", { ascending: false }).limit(5),
+    // user tasks
+    supabase
+      .from("tasks")
+      .select("id, title, type, is_done, priority, source, project_id, created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(200),
   ])
 
   const projects = (projectsRes.data ?? []) as unknown as ProjectRow[]
   const totalClients = clientsRes.count ?? 0
+  const tasks = (tasksRes.data ?? []) as Task[]
   const active = projects.filter(p =>
     ["new", "in_progress", "waiting_material", "ready", "waiting_deposit"].includes(p.status)
   )
@@ -83,6 +93,40 @@ async function getDashboardData() {
     return diff >= 0 && diff <= 7
   })
   const totalRevenue = (paymentsRes.data ?? []).reduce((s, p) => s + (p.amount ?? 0), 0)
+
+  // ── Smart suggestions from app data ───────────────────────────
+  const suggestions: SmartSuggestion[] = []
+  for (const p of projects) {
+    const clientName = getClientName(p.client)
+    const nameWithClient = clientName ? `${p.title} ← ${clientName}` : p.title
+
+    if (["paid", "delivered", "cancelled"].includes(p.status)) continue
+
+    // Overdue → daily
+    if (p.due_date && p.due_date < todayStr) {
+      suggestions.push({ icon: "🔴", title: `עבר יעד: ${nameWithClient}`, type: "daily" })
+    }
+    // Ready for delivery → daily
+    if (p.status === "ready") {
+      suggestions.push({ icon: "📦", title: `מוכן למסירה: ${nameWithClient}`, type: "daily" })
+    }
+    // Due this week (not overdue) → weekly
+    if (p.due_date && p.due_date >= todayStr && p.due_date <= weekEndStr) {
+      suggestions.push({ icon: "📅", title: `מועד יעד השבוע: ${nameWithClient}`, type: "weekly" })
+    }
+    // Follow-up this week → weekly
+    if (p.follow_up_at && p.follow_up_at >= weekStart && p.follow_up_at <= weekEndStr) {
+      suggestions.push({ icon: "📞", title: `פולו-אפ: ${nameWithClient}`, type: "weekly" })
+    }
+    // No price → general
+    if (p.status === "new" && !p.price) {
+      suggestions.push({ icon: "💰", title: `תמחר פרויקט: ${p.title}`, type: "general" })
+    }
+    // Waiting deposit → general
+    if (p.status === "waiting_deposit") {
+      suggestions.push({ icon: "💳", title: `ממתין הפקדה: ${nameWithClient}`, type: "general" })
+    }
+  }
 
   // Build calendar events
   const events: CalendarEvent[] = []
@@ -128,6 +172,8 @@ async function getDashboardData() {
     recentProjects: projects.slice(0, 8),
     weekStart,
     events,
+    tasks,
+    suggestions,
   }
 }
 
@@ -151,7 +197,7 @@ export default async function DashboardPage() {
   const data = await getDashboardData()
   if (!data) return <p className="text-[#151515]/50 p-6">שגיאה בטעינת הנתונים.</p>
 
-  const { totalClients, activeProjects, dueThisWeek, totalRevenue, recentProjects, weekStart, events } = data
+  const { totalClients, activeProjects, dueThisWeek, totalRevenue, recentProjects, weekStart, events, tasks, suggestions } = data
 
   return (
     <div className="flex flex-col gap-6 pb-28 max-w-3xl" dir="rtl">
@@ -199,6 +245,9 @@ export default async function DashboardPage() {
           <p className={`text-3xl font-black ${dueThisWeek > 0 ? "text-[#8B1A1A]" : "text-[#151515]"}`}>{dueThisWeek}</p>
         </div>
       </div>
+
+      {/* Tasks & Reminders */}
+      <TasksWidget tasks={tasks} suggestions={suggestions} />
 
       {/* Weekly Calendar */}
       <div>

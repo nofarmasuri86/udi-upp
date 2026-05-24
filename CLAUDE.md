@@ -116,6 +116,7 @@ if (logError?.code === "23505") {
 | `gallery` | גלריית תמונות ב-Supabase Storage |
 | `whatsapp_inbound_log` | לוג הודעות נכנסות עם UNIQUE על `msg_id` |
 | `chat_messages` | הודעות צ'אט AI עם RLS per user |
+| `tasks` | משימות ותזכורות (daily/weekly/general), source=manual/agent |
 
 ---
 
@@ -138,3 +139,4 @@ if (logError?.code === "23505") {
 1. `supabase/migrations/20260524000001_check_image_waiting_deposit.sql`
 2. `supabase/migrations/20260524000002_chat_messages.sql`
 3. `supabase/migrations/20260524000003_make_integration.sql`
+4. `supabase/migrations/20260525000001_tasks.sql` ← **חדש: טבלת משימות**
