@@ -149,140 +149,130 @@ const PROJECT_EMOJIS = ["🔧", "🔩", "🪛", "🧩", "⚙️", "🔨", "🪚"
 
 export default async function DashboardPage() {
   const data = await getDashboardData()
-  if (!data) return <p className="text-white/50 p-6">שגיאה בטעינת הנתונים.</p>
+  if (!data) return <p className="text-[#151515]/50 p-6">שגיאה בטעינת הנתונים.</p>
 
   const { totalClients, activeProjects, dueThisWeek, totalRevenue, recentProjects, weekStart, events } = data
 
   return (
-    <div className="flex flex-col gap-5 pb-28" dir="rtl">
+    <div className="flex flex-col gap-6 pb-28 max-w-3xl" dir="rtl">
 
-      {/* Hero */}
-      <div className="rounded-3xl p-5 shadow-2xl text-white relative overflow-hidden border border-red-800/30"
-        style={{ background: "linear-gradient(135deg, #3d0a0a 0%, #1a0606 60%, #2a0808 100%)" }}>
-        <div className="absolute -bottom-8 -left-8 w-36 h-36 bg-red-700/20 rounded-full blur-3xl" />
-        <div className="absolute -top-6 right-6 w-24 h-24 bg-red-900/30 rounded-full blur-3xl" />
-        <div className="relative">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <p className="text-red-300/70 text-xs font-semibold">ברוך הבא בחזרה</p>
-              <h1 className="text-2xl font-black mt-0.5">שלום, אודי 👋</h1>
-            </div>
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center text-2xl shadow-lg shadow-red-700/40">🧩</div>
+      {/* Hero — industrial header block */}
+      <div className="border border-[#151515] bg-[#151515] p-5 text-[#f3f3f3]">
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <p className="text-[#8B1A1A] text-xs font-bold tracking-widest uppercase">ברוך הבא בחזרה</p>
+            <h1 className="text-3xl font-black mt-1 leading-none">שלום, אודי</h1>
           </div>
-          <div className="bg-white/10 backdrop-blur rounded-2xl p-3.5 flex items-center justify-between border border-white/10">
-            <div>
-              <p className="text-blue-200 text-xs font-medium">סה״כ תשלומים</p>
-              <p className="text-2xl font-black mt-0.5">₪{totalRevenue.toLocaleString("he-IL")}</p>
-            </div>
-            <div className="w-10 h-10 rounded-xl bg-green-500/20 border border-green-400/30 flex items-center justify-center">
-              <TrendingUp className="h-5 w-5 text-green-400" />
-            </div>
+          <div className="w-12 h-12 bg-[#8B1A1A] flex items-center justify-center text-2xl shrink-0">🧩</div>
+        </div>
+        {/* Revenue strip */}
+        <div className="border border-[#2a2a2a] bg-[#1e1e1e] p-3 flex items-center justify-between">
+          <div>
+            <p className="text-[#999] text-xs font-semibold">סה״כ תשלומים</p>
+            <p className="text-2xl font-black mt-0.5">₪{totalRevenue.toLocaleString("he-IL")}</p>
           </div>
+          <TrendingUp className="h-6 w-6 text-[#8B1A1A]" />
         </div>
       </div>
 
       {/* Quick actions */}
-      <div className="flex gap-2.5">
+      <div className="flex gap-2">
         <AddLeadDialog />
         <Link href="/dashboard/projects/new"
-          className="flex items-center gap-2 bg-gradient-to-r from-red-700 to-red-900 text-white text-sm font-bold px-4 py-2.5 rounded-2xl shadow-lg shadow-red-700/30 hover:scale-105 active:scale-95 transition-all border border-white/10">
+          className="flex items-center gap-2 bg-[#8B1A1A] text-[#f3f3f3] text-sm font-bold px-4 py-2.5 border border-[#8B1A1A] hover:bg-[#6e1414] active:scale-[0.98] transition-all">
           + עבודה חדשה
         </Link>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-2.5">
-        <div className="rounded-2xl p-3.5 text-white border border-blue-500/30 bg-blue-500/10">
-          <div className="text-xl mb-1.5">👤</div>
-          <div className="text-2xl font-black">{totalClients}</div>
-          <div className="text-blue-300 text-[11px] font-semibold">לקוחות</div>
+      {/* Stats — sharp bordered cards */}
+      <div className="grid grid-cols-3 gap-0 border border-[#151515]">
+        <div className="p-4 border-l border-[#151515]">
+          <p className="text-xs font-bold text-[#151515]/50 uppercase tracking-wider mb-2">לקוחות</p>
+          <p className="text-3xl font-black text-[#151515]">{totalClients}</p>
         </div>
-        <div className="rounded-2xl p-3.5 text-white border border-red-700/30 bg-red-700/10">
-          <div className="text-xl mb-1.5">🔧</div>
-          <div className="text-2xl font-black">{activeProjects}</div>
-          <div className="text-red-300 text-[11px] font-semibold">פעילים</div>
+        <div className="p-4 border-l border-[#151515]">
+          <p className="text-xs font-bold text-[#151515]/50 uppercase tracking-wider mb-2">פעילים</p>
+          <p className="text-3xl font-black text-[#8B1A1A]">{activeProjects}</p>
         </div>
-        <div className={`rounded-2xl p-3.5 text-white border ${dueThisWeek > 0 ? "border-red-500/30 bg-red-500/10" : "border-white/10 bg-white/[0.04]"}`}>
-          <div className="text-xl mb-1.5">📅</div>
-          <div className="text-2xl font-black">{dueThisWeek}</div>
-          <div className="text-red-300 text-[11px] font-semibold">השבוע</div>
+        <div className="p-4">
+          <p className="text-xs font-bold text-[#151515]/50 uppercase tracking-wider mb-2">השבוע</p>
+          <p className={`text-3xl font-black ${dueThisWeek > 0 ? "text-[#8B1A1A]" : "text-[#151515]"}`}>{dueThisWeek}</p>
         </div>
       </div>
 
       {/* Weekly Calendar */}
       <div>
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-3 border-b border-[#151515] pb-2">
           <div className="flex items-center gap-2">
-            <CalendarDays className="h-4 w-4 text-blue-400" />
-            <h2 className="text-base font-black text-white">לוז השבוע</h2>
+            <CalendarDays className="h-4 w-4 text-[#8B1A1A]" />
+            <h2 className="text-base font-black text-[#151515] uppercase tracking-wide">לוז השבוע</h2>
           </div>
           <Link href="/dashboard/calendar"
-            className="flex items-center gap-1 text-xs font-semibold text-blue-300 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-full hover:bg-blue-500/20 transition-colors">
+            className="flex items-center gap-1 text-xs font-bold text-[#8B1A1A] border border-[#8B1A1A] px-2.5 py-1 hover:bg-[#8B1A1A] hover:text-[#f3f3f3] transition-colors">
             יומן מלא <ArrowLeft className="h-3 w-3" />
           </Link>
         </div>
 
         {events.length === 0 ? (
-          <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] py-6 flex items-center justify-center gap-2">
+          <div className="border border-dashed border-[#151515]/30 py-8 flex items-center justify-center gap-2">
             <span className="text-2xl">🎉</span>
-            <p className="text-white/30 text-sm font-medium">אין אירועים השבוע</p>
+            <p className="text-[#151515]/40 text-sm font-medium">אין אירועים השבוע</p>
           </div>
         ) : (
           <WeeklyCalendarGrid events={events} weekStart={weekStart} />
         )}
 
-        {/* Legend */}
-        <div className="flex gap-3 mt-2 px-1">
+        <div className="flex gap-4 mt-2">
           {[
-            { color: "bg-red-400", label: "מועד סיום" },
-            { color: "bg-blue-400", label: "פולו-אפ" },
-            { color: "bg-amber-400", label: "הצעת מחיר" },
+            { color: "bg-[#8B1A1A]", label: "מועד סיום" },
+            { color: "bg-blue-500", label: "פולו-אפ" },
+            { color: "bg-amber-500", label: "הצעת מחיר" },
           ].map(({ color, label }) => (
-            <div key={label} className="flex items-center gap-1.5 text-[10px] text-white/40">
-              <span className={`w-2 h-2 rounded-full ${color}`} />
+            <div key={label} className="flex items-center gap-1.5 text-[10px] text-[#151515]/40 font-semibold">
+              <span className={`w-2 h-2 ${color}`} />
               {label}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Recent projects — compact horizontal scroll */}
+      {/* Recent projects */}
       <div>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-base font-black text-white">פרויקטים אחרונים</h2>
+        <div className="flex items-center justify-between mb-3 border-b border-[#151515] pb-2">
+          <h2 className="text-base font-black text-[#151515] uppercase tracking-wide">פרויקטים אחרונים</h2>
           <Link href="/dashboard/projects"
-            className="flex items-center gap-1 text-xs font-semibold text-blue-300 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-full hover:bg-blue-500/20 transition-colors">
+            className="flex items-center gap-1 text-xs font-bold text-[#8B1A1A] border border-[#8B1A1A] px-2.5 py-1 hover:bg-[#8B1A1A] hover:text-[#f3f3f3] transition-colors">
             כולם <ArrowLeft className="h-3 w-3" />
           </Link>
         </div>
 
         {recentProjects.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/10 py-10 flex flex-col items-center gap-2">
-            <span className="text-4xl">🪚</span>
-            <p className="text-white/30 text-sm">אין פרויקטים עדיין</p>
+          <div className="border border-dashed border-[#151515]/30 py-10 flex flex-col items-center gap-2">
+            <span className="text-4xl">🔧</span>
+            <p className="text-[#151515]/40 text-sm">אין פרויקטים עדיין</p>
           </div>
         ) : (
-          <div className="flex gap-2.5 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
+          <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
             {recentProjects.map((project, i) => {
               const clientName = getClientName(project.client)
               const dot = PROJECT_STATUS_DOT[project.status]
 
               return (
-                <div key={project.id} className="shrink-0 w-40 rounded-2xl bg-white/[0.04] border border-white/[0.08] overflow-hidden hover:border-white/[0.18] transition-all active:scale-[0.97]">
+                <div key={project.id} className="shrink-0 w-40 border border-[#151515] bg-white overflow-hidden hover:border-[#8B1A1A] transition-all active:scale-[0.97]">
                   <Link href={`/dashboard/projects/${project.id}`} className="block p-3">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-2xl">{PROJECT_EMOJIS[i % PROJECT_EMOJIS.length]}</span>
                       <span className={`w-2 h-2 rounded-full ${dot}`} />
                     </div>
-                    <p className="text-white text-xs font-bold leading-tight line-clamp-2 min-h-[2rem]">{project.title}</p>
-                    {clientName && <p className="text-blue-300/60 text-[10px] mt-1 truncate">{clientName}</p>}
+                    <p className="text-[#151515] text-xs font-bold leading-tight line-clamp-2 min-h-[2rem]">{project.title}</p>
+                    {clientName && <p className="text-[#151515]/50 text-[10px] mt-1 truncate">{clientName}</p>}
                     {project.price ? (
-                      <p className="text-amber-400 text-sm font-black mt-1.5">₪{project.price.toLocaleString("he-IL")}</p>
+                      <p className="text-[#8B1A1A] text-sm font-black mt-1.5">₪{project.price.toLocaleString("he-IL")}</p>
                     ) : (
-                      <p className="text-white/20 text-[10px] mt-1.5">{PROJECT_STATUS_LABELS[project.status]}</p>
+                      <p className="text-[#151515]/30 text-[10px] mt-1.5">{PROJECT_STATUS_LABELS[project.status]}</p>
                     )}
                   </Link>
-                  <div className="px-2 pb-2.5 border-t border-white/[0.05] pt-2">
+                  <div className="px-2 pb-2.5 border-t border-[#e5e5e5] pt-2">
                     <QuickGalleryUpload projectId={project.id} projectTitle={project.title} />
                   </div>
                 </div>

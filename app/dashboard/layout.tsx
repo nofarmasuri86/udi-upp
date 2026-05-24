@@ -3,6 +3,7 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { AgentFab } from "@/components/agent-fab"
 import { BackButton } from "@/components/back-button"
 import { cookies } from "next/headers"
+import Image from "next/image"
 
 export default async function DashboardLayout({
   children,
@@ -14,23 +15,29 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
-      <SidebarInset className="bg-[#07091a]">
-        <header className="flex h-16 items-center justify-between border-b border-red-900/40 bg-gradient-to-r from-[#12060a] via-[#1e0a0a] to-[#12060a] px-4 sticky top-0 z-10 shadow-lg shadow-red-900/30">
+      <SidebarInset className="bg-[#f3f3f3]">
+        <header className="flex h-14 items-center justify-between border-b border-[#151515] bg-[#f3f3f3] px-4 sticky top-0 z-10">
+          {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center text-xl shadow-lg shadow-red-700/40">
-              🧩
-            </div>
-            <div>
-              <span className="text-sm font-black text-white">אודי הרכבות</span>
-              <p className="text-red-400/70 text-xs leading-none mt-0.5">ניהול עסק</p>
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 bg-[#8B1A1A] flex items-center justify-center text-white font-black text-sm shrink-0">
+                🧩
+              </div>
+              <div>
+                <span className="text-sm font-black text-[#151515] leading-none block">אודי הרכבות</span>
+                <span className="text-[10px] text-[#8B1A1A] font-semibold leading-none block mt-0.5">התקנות · הרכבות · פירוק</span>
+              </div>
             </div>
           </div>
+
+          {/* Right controls */}
           <div className="flex items-center gap-1">
             <BackButton />
-            <SidebarTrigger className="h-9 w-9 text-white/60 hover:bg-white/10 rounded-xl transition-colors" />
+            <SidebarTrigger className="h-8 w-8 text-[#151515] hover:bg-[#e5e5e5] transition-colors" />
           </div>
         </header>
-        <main className="flex-1 p-4 md:p-6 min-h-screen bg-gradient-to-br from-[#0e0606] via-[#150a0a] to-[#0e0606]">
+
+        <main className="flex-1 p-4 md:p-6 min-h-screen bg-[#f3f3f3]">
           {children}
           <AgentFab />
         </main>

@@ -3,11 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Hammer } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -32,58 +27,63 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-background p-4" dir="rtl">
-      <Card className="w-full max-w-sm shadow-lg border-border/60">
-        <CardHeader className="text-center gap-3 pb-4">
-          <div className="flex justify-center">
-            <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center">
-              <Hammer className="h-6 w-6 text-primary-foreground" />
-            </div>
-          </div>
-          <div>
-            <CardTitle className="text-xl">ברוך הבא, אודי</CardTitle>
-            <CardDescription className="mt-1">הכנס פרטים כדי להיכנס למערכת</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
+    <main className="min-h-screen flex items-center justify-center bg-[#f3f3f3] p-4" dir="rtl">
+      <div className="w-full max-w-sm">
+
+        {/* Logo block */}
+        <div className="border border-[#151515] bg-[#151515] p-6 text-center mb-0">
+          <div className="w-14 h-14 bg-[#8B1A1A] flex items-center justify-center text-3xl mx-auto mb-3">🧩</div>
+          <h1 className="text-2xl font-black text-[#f3f3f3] leading-tight">אודי הרכבות</h1>
+          <p className="text-[#8B1A1A] text-xs font-bold mt-1 tracking-widest uppercase">מערכת ניהול עסק</p>
+        </div>
+
+        {/* Form block */}
+        <div className="border border-[#151515] border-t-0 bg-white p-6">
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="email">אימייל</Label>
-              <Input
-                id="email"
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-bold text-[#151515] uppercase tracking-wider">אימייל</label>
+              <input
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
                 placeholder="you@example.com"
                 dir="ltr"
-                className="h-11"
+                className="border border-[#151515] bg-[#f3f3f3] px-3 py-2.5 text-sm text-[#151515] outline-none focus:border-[#8B1A1A] focus:bg-white transition-colors placeholder:text-[#151515]/30"
               />
             </div>
-            <div className="flex flex-col gap-1.5">
-              <Label htmlFor="password">סיסמה</Label>
-              <Input
-                id="password"
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-bold text-[#151515] uppercase tracking-wider">סיסמה</label>
+              <input
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
                 dir="ltr"
-                className="h-11"
+                className="border border-[#151515] bg-[#f3f3f3] px-3 py-2.5 text-sm text-[#151515] outline-none focus:border-[#8B1A1A] focus:bg-white transition-colors"
               />
             </div>
+
             {error && (
-              <div className="rounded-lg bg-destructive/10 border border-destructive/20 px-3 py-2">
-                <p className="text-sm text-destructive">{error}</p>
+              <div className="border border-[#8B1A1A] bg-[#8B1A1A]/5 px-3 py-2">
+                <p className="text-sm text-[#8B1A1A] font-semibold">{error}</p>
               </div>
             )}
-            <Button type="submit" disabled={loading} className="h-11 text-base mt-1">
-              {loading ? 'נכנס...' : 'כניסה'}
-            </Button>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-[#8B1A1A] text-[#f3f3f3] font-black py-3 text-sm uppercase tracking-widest hover:bg-[#6e1414] active:scale-[0.98] transition-all disabled:opacity-60 mt-1"
+            >
+              {loading ? 'נכנס...' : 'כניסה למערכת'}
+            </button>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+
+        {/* Bottom line accent */}
+        <div className="h-1 bg-[#8B1A1A]" />
+      </div>
     </main>
   )
 }

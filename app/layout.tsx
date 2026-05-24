@@ -8,8 +8,8 @@ const rubik = Rubik({ subsets: ["latin", "hebrew"], variable: "--font-sans" })
 const fontMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" })
 
 export const metadata: Metadata = {
-  title: "AutoBase — אודי נגרות",
-  description: "מערכת ניהול עסקי לנגרות",
+  title: "אודי הרכבות — ניהול עסק",
+  description: "מערכת ניהול עסקי — התקנות, הרכבות ופירוק מכל הסוגים",
 }
 
 export default function RootLayout({

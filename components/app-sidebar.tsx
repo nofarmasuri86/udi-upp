@@ -49,18 +49,20 @@ export function AppSidebar() {
 
   return (
     <Sidebar side="left" collapsible="icon">
-      <SidebarHeader className="p-4 border-b border-sidebar-border">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center text-lg shadow-md shrink-0">
+      {/* Header */}
+      <SidebarHeader className="p-0 border-b border-[#2a2a2a]">
+        <div className="flex items-center gap-3 px-4 py-3">
+          <div className="w-8 h-8 bg-[#8B1A1A] flex items-center justify-center text-base shrink-0">
             🧩
           </div>
-          <div className="flex flex-col gap-0 overflow-hidden">
-            <span className="text-sm font-black text-sidebar-foreground truncate">אודי הרכבות</span>
-            <span className="text-xs text-sidebar-foreground/50 truncate">ניהול עסק</span>
+          <div className="flex flex-col overflow-hidden">
+            <span className="text-sm font-black text-[#f3f3f3] truncate leading-tight">אודי הרכבות</span>
+            <span className="text-[10px] text-[#8B1A1A] truncate leading-tight">ניהול עסק</span>
           </div>
         </div>
       </SidebarHeader>
 
+      {/* Nav */}
       <SidebarContent className="px-2 py-3">
         <SidebarMenu>
           {navItems.map(({ href, label, icon: Icon, exact }) => {
@@ -70,13 +72,13 @@ export function AppSidebar() {
                 <SidebarMenuButton
                   render={<Link href={href} />}
                   isActive={isActive}
-                  className={`rounded-xl h-11 font-semibold transition-all gap-3 ${
+                  className={`h-10 font-semibold transition-all gap-3 rounded-none border-r-0 ${
                     isActive
-                      ? "bg-gradient-to-r from-red-700 to-red-900 text-white shadow-md"
-                      : "hover:bg-sidebar-accent"
+                      ? "border-r-2 border-[#8B1A1A] bg-[#8B1A1A]/15 text-[#f3f3f3]"
+                      : "text-[#999999] hover:bg-[#2a2a2a] hover:text-[#f3f3f3]"
                   }`}
                 >
-                  <Icon className="h-4 w-4 shrink-0" />
+                  <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-[#8B1A1A]" : ""}`} />
                   <span>{label}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -85,12 +87,13 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarContent>
 
-      <SidebarFooter className="p-2 border-t border-sidebar-border">
+      {/* Footer */}
+      <SidebarFooter className="p-2 border-t border-[#2a2a2a]">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               onClick={handleLogout}
-              className="rounded-xl h-11 font-semibold text-sidebar-foreground/70 hover:text-destructive hover:bg-destructive/10 transition-all gap-3"
+              className="rounded-none h-10 font-semibold text-[#666666] hover:text-[#f3f3f3] hover:bg-[#2a2a2a] transition-all gap-3"
             >
               <LogOut className="h-4 w-4 shrink-0" />
               <span>יציאה</span>
