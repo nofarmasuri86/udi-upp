@@ -16,7 +16,7 @@ type Quote = {
 }
 
 const STATUS_MAP: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
-  draft:    { label: "טיוטה",   color: "text-white/40 bg-white border-[#e5e5e5]",       icon: <Clock className="h-3 w-3" /> },
+  draft:    { label: "טיוטה",   color: "text-[#151515]/50 bg-white border-[#e5e5e5]",       icon: <Clock className="h-3 w-3" /> },
   sent:     { label: "נשלחה",   color: "text-[#8B1A1A] bg-blue-500/10 border-blue-500/20",      icon: <Send className="h-3 w-3" /> },
   accepted: { label: "אושרה",   color: "text-green-300 bg-green-500/10 border-green-500/20",  icon: <CheckCircle className="h-3 w-3" /> },
   rejected: { label: "נדחתה",   color: "text-red-300 bg-red-500/10 border-red-500/20",        icon: <XCircle className="h-3 w-3" /> },
@@ -58,7 +58,7 @@ export function QuoteList({ quotes }: { quotes: Quote[] }) {
             {/* Info */}
             <div className="flex-1 min-w-0">
               <p className="text-[#151515] text-sm font-bold truncate">{q.title}</p>
-              <p className="text-white/40 text-xs mt-0.5">{q.client_name} · ₪{Math.round(q.total).toLocaleString("he-IL")}</p>
+              <p className="text-[#151515]/50 text-xs mt-0.5">{q.client_name} · ₪{Math.round(q.total).toLocaleString("he-IL")}</p>
             </div>
 
             {/* Actions */}
@@ -83,7 +83,7 @@ export function QuoteList({ quotes }: { quotes: Quote[] }) {
               )}
               <button onClick={() => handleDelete(q.id)} disabled={isPending}
                 className={`w-7 h-7 rounded-none flex items-center justify-center transition-colors ${
-                  confirmDelete === q.id ? "bg-red-500/30 text-red-300" : "bg-white text-white/30 hover:bg-red-500/20 hover:text-red-400"
+                  confirmDelete === q.id ? "bg-red-500/20 text-red-600" : "bg-white text-[#151515]/30 hover:bg-red-500/10 hover:text-red-600"
                 }`}>
                 <Trash2 className="h-3.5 w-3.5" />
               </button>

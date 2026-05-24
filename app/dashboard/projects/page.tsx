@@ -114,8 +114,8 @@ export default async function ProjectsPage({
               href={value === "all" ? "/dashboard/projects" : `/dashboard/projects?status=${value}`}
               className={`flex items-center gap-1.5 whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold transition-all shrink-0 border ${
                 isActive
-                  ? "bg-white text-slate-900 border-white shadow-lg shadow-white/20 scale-105"
-                  : "bg-white text-white/60 border-[#e5e5e5] hover:bg-white/10 hover:text-[#151515]"
+                  ? "bg-[#151515] text-[#f3f3f3] border-[#151515] shadow-lg scale-105"
+                  : "bg-white text-[#151515]/60 border-[#e5e5e5] hover:bg-[#f3f3f3] hover:text-[#151515]"
               }`}
             >
               <span>{emoji}</span>
@@ -131,7 +131,7 @@ export default async function ProjectsPage({
           <div className="text-6xl">🪚</div>
           <div>
             <p className="font-bold text-lg text-[#151515]">אין פרויקטים</p>
-            <p className="text-sm text-white/40 mt-1">לחץ על ״עבודה חדשה״ כדי להתחיל</p>
+            <p className="text-sm text-[#151515]/50 mt-1">לחץ על ״עבודה חדשה״ כדי להתחיל</p>
           </div>
           <Link href="/dashboard/projects/new">
             <button className="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-600 text-[#151515] text-sm font-bold px-5 py-2.5 rounded-none shadow-lg shadow-amber-500/30 hover:scale-105 active:scale-95 transition-all">
@@ -167,7 +167,7 @@ export default async function ProjectsPage({
                   <div className="px-4 py-4 flex flex-col gap-2">
                     <div className="flex items-start justify-between gap-2">
                       <h3 className="font-black text-base leading-tight flex-1 text-[#151515]">{project.title}</h3>
-                      <ChevronLeft className="h-4 w-4 text-white/20 mt-0.5 shrink-0" />
+                      <ChevronLeft className="h-4 w-4 text-[#151515]/30 mt-0.5 shrink-0" />
                     </div>
 
                     {clientName && (
@@ -178,12 +178,12 @@ export default async function ProjectsPage({
                       {project.price ? (
                         <span className="text-xl font-black text-[#151515]">₪{project.price.toLocaleString("he-IL")}</span>
                       ) : (
-                        <span className="text-sm text-white/30">ללא מחיר</span>
+                        <span className="text-sm text-[#151515]/40">ללא מחיר</span>
                       )}
 
                       {project.due_date && (
                         <span className={`flex items-center gap-1 text-xs font-semibold ${
-                          isOverdue ? "text-red-400" : "text-white/40"
+                          isOverdue ? "text-red-600" : "text-[#151515]/40"
                         }`}>
                           <CalendarDays className="h-3.5 w-3.5" />
                           {new Date(project.due_date).toLocaleDateString("he-IL")}

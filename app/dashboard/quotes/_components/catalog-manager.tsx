@@ -71,12 +71,12 @@ export function CatalogManager({ catalog, staleIds }: { catalog: CatalogItem[]; 
       {catalog.length === 0 ? (
         <div className="rounded-none border border-dashed border-[#e5e5e5] py-10 flex flex-col items-center gap-2">
           <span className="text-3xl">📦</span>
-          <p className="text-white/30 text-sm">קטלוג ריק — הוסף פריטים ראשונים</p>
+          <p className="text-[#151515]/40 text-sm">קטלוג ריק — הוסף פריטים ראשונים</p>
         </div>
       ) : (
         Object.entries(grouped).map(([cat, items]) => (
           <div key={cat}>
-            <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1.5 px-1">{cat}</p>
+            <p className="text-xs font-bold text-[#151515]/50 uppercase tracking-widest mb-1.5 px-1">{cat}</p>
             <div className="flex flex-col gap-1.5">
               {items.map(item => {
                 const isStale = staleIds.has(item.id)
@@ -96,19 +96,19 @@ export function CatalogManager({ catalog, staleIds }: { catalog: CatalogItem[]; 
                           <div className="flex items-center gap-2">
                             <span className="text-[#151515] text-sm font-semibold truncate">{item.name}</span>
                             <span className="text-[#8B1A1A] font-black text-sm shrink-0">
-                              ₪{item.unit_price.toLocaleString("he-IL")}<span className="text-white/30 font-normal text-xs">/{item.unit}</span>
+                              ₪{item.unit_price.toLocaleString("he-IL")}<span className="text-[#151515]/40 font-normal text-xs">/{item.unit}</span>
                             </span>
                           </div>
-                          {item.notes && <p className="text-white/30 text-xs mt-0.5 truncate">{item.notes}</p>}
+                          {item.notes && <p className="text-[#151515]/40 text-xs mt-0.5 truncate">{item.notes}</p>}
                         </div>
                         <div className="flex items-center gap-1 shrink-0">
                           <button onClick={() => { setEditId(item.id); setShowAdd(false) }}
                             className="w-7 h-7 rounded-none bg-white hover:bg-white/10 flex items-center justify-center transition-colors">
-                            <Edit2 className="h-3.5 w-3.5 text-white/40" />
+                            <Edit2 className="h-3.5 w-3.5 text-[#151515]/40" />
                           </button>
                           <button onClick={() => handleDelete(item.id)} disabled={isPending}
                             className={`w-7 h-7 rounded-none flex items-center justify-center transition-colors ${
-                              confirmDelete === item.id ? "bg-red-500/30 text-red-300" : "bg-white text-white/30 hover:bg-red-500/20 hover:text-red-400"
+                              confirmDelete === item.id ? "bg-red-500/20 text-red-600" : "bg-white text-[#151515]/30 hover:bg-red-500/10 hover:text-red-600"
                             }`}>
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
@@ -159,7 +159,7 @@ function CatalogForm({
           <Check className="h-4 w-4" /> {isPending ? "שומר..." : "שמור"}
         </button>
         <button type="button" onClick={onCancel}
-          className="flex items-center gap-1.5 bg-white text-white/60 text-sm font-semibold px-4 py-2 rounded-none hover:bg-white/10 transition-colors">
+          className="flex items-center gap-1.5 bg-white border border-[#e5e5e5] text-[#151515]/60 text-sm font-semibold px-4 py-2 rounded-none hover:bg-[#f3f3f3] transition-colors">
           <X className="h-4 w-4" /> ביטול
         </button>
       </div>

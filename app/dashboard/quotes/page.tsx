@@ -48,7 +48,7 @@ async function getQuotesPageData() {
 
 export default async function QuotesPage() {
   const data = await getQuotesPageData()
-  if (!data) return <p className="text-white/50 p-6">שגיאה בטעינת הנתונים.</p>
+  if (!data) return <p className="text-[#151515]/50 p-6">שגיאה בטעינת הנתונים.</p>
 
   const { catalog, quotes, projects, staleIds } = data
 

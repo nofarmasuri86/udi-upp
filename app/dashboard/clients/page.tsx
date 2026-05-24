@@ -79,7 +79,7 @@ export default async function ClientsPage() {
           <div className="text-6xl">👤</div>
           <div>
             <p className="font-bold text-lg text-[#151515]">אין לקוחות עדיין</p>
-            <p className="text-sm text-white/40 mt-1">לחץ על ״לקוח חדש״ כדי להתחיל</p>
+            <p className="text-sm text-[#151515]/50 mt-1">לחץ על ״לקוח חדש״ כדי להתחיל</p>
           </div>
         </div>
       ) : (
@@ -133,7 +133,7 @@ export default async function ClientsPage() {
                           פרויקטים
                         </span>
                       </div>
-                      <ChevronLeft className="h-5 w-5 text-white/20" />
+                      <ChevronLeft className="h-5 w-5 text-[#151515]/30" />
                     </div>
                   </div>
                 </div>

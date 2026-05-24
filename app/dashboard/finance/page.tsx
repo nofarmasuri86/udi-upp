@@ -41,7 +41,7 @@ export default async function FinancePage({
   const year = Number(yearStr) || currentYear
   const data = await getFinanceData(year)
 
-  if (!data) return <p className="text-white/50 p-6">שגיאה בטעינת הנתונים.</p>
+  if (!data) return <p className="text-[#151515]/50 p-6">שגיאה בטעינת הנתונים.</p>
   const { months, totalIncome, totalExpenses, profit, maxVal, expenses, projects } = data
 
   const fmt = (n: number) => `₪${Math.round(n).toLocaleString("he-IL")}`
@@ -60,7 +60,7 @@ export default async function FinancePage({
           <div className="flex items-center gap-1 bg-white border border-[#e5e5e5] rounded-none px-1 py-1">
             {[currentYear - 1, currentYear].map(y => (
               <a key={y} href={`/dashboard/finance?year=${y}`}
-                className={`px-3 py-1.5 rounded-none text-sm font-bold transition-all ${y === year ? "bg-blue-500 text-[#151515] shadow-md" : "text-white/50 hover:text-[#151515]"}`}>
+                className={`px-3 py-1.5 rounded-none text-sm font-bold transition-all ${y === year ? "bg-[#8B1A1A] text-[#f3f3f3] shadow-md" : "text-[#151515]/50 hover:text-[#151515]"}`}>
                 {y}
               </a>
             ))}
@@ -112,7 +112,7 @@ export default async function FinancePage({
                     <div className="flex-1 bg-red-500/30 rounded-t-sm transition-all"   style={{ height: `${expensePct}%`, minHeight: m.expenses > 0 ? "4px" : "0" }} title={`הוצאה: ${fmt(m.expenses)}`} />
                   </div>
                   {/* Month name */}
-                  <span className="text-[10px] text-white/50 font-medium text-center">{MONTH_NAMES[m.month].slice(0,3)}</span>
+                  <span className="text-[10px] text-[#151515]/50 font-medium text-center">{MONTH_NAMES[m.month].slice(0,3)}</span>
                   {/* Profit indicator */}
                   {hasData && (
                     <span className={`text-[9px] font-bold px-1 rounded ${mProfit >= 0 ? "text-green-400" : "text-red-400"}`}>
@@ -125,8 +125,8 @@ export default async function FinancePage({
           </div>
           {/* Legend */}
           <div className="flex gap-4 mt-3 justify-center">
-            <div className="flex items-center gap-1.5 text-[11px] text-white/50"><span className="w-3 h-3 rounded-sm bg-green-500/40" />הכנסה</div>
-            <div className="flex items-center gap-1.5 text-[11px] text-white/50"><span className="w-3 h-3 rounded-sm bg-red-500/40" />הוצאה</div>
+            <div className="flex items-center gap-1.5 text-[11px] text-[#151515]/50"><span className="w-3 h-3 rounded-sm bg-green-500/40" />הכנסה</div>
+            <div className="flex items-center gap-1.5 text-[11px] text-[#151515]/50"><span className="w-3 h-3 rounded-sm bg-red-500/40" />הוצאה</div>
           </div>
         </div>
       </div>
@@ -135,7 +135,7 @@ export default async function FinancePage({
       <div>
         <h2 className="text-base font-black text-[#151515] mb-3">פירוט חודשי</h2>
         <div className="rounded-none bg-white border border-[#e5e5e5] overflow-hidden">
-          <div className="grid grid-cols-4 px-4 py-2 border-b border-[#e5e5e5] text-[11px] font-bold text-white/40">
+          <div className="grid grid-cols-4 px-4 py-2 border-b border-[#e5e5e5] text-[11px] font-bold text-[#151515]/50">
             <span>חודש</span><span className="text-center">הכנסות</span><span className="text-center">הוצאות</span><span className="text-left">רווח</span>
           </div>
           {months.map((m) => {
@@ -168,7 +168,7 @@ export default async function FinancePage({
         {expenses.length === 0 ? (
           <div className="rounded-none border border-dashed border-[#e5e5e5] py-10 flex flex-col items-center gap-2">
             <span className="text-3xl">💸</span>
-            <p className="text-white/30 text-sm">אין הוצאות רשומות</p>
+            <p className="text-[#151515]/40 text-sm">אין הוצאות רשומות</p>
           </div>
         ) : (
           <div className="flex flex-col gap-2">
@@ -179,7 +179,7 @@ export default async function FinancePage({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[#151515] text-sm font-bold truncate">{exp.description}</p>
-                  <p className="text-white/40 text-xs mt-0.5">
+                  <p className="text-[#151515]/50 text-xs mt-0.5">
                     {EXPENSE_CATEGORY_LABELS[exp.category as keyof typeof EXPENSE_CATEGORY_LABELS] ?? exp.category}
                     {" · "}
                     {new Date(exp.expense_date).toLocaleDateString("he-IL")}
@@ -189,7 +189,7 @@ export default async function FinancePage({
                   <span className="text-red-300 font-black text-base">₪{exp.amount.toLocaleString("he-IL")}</span>
                   <form action={deleteExpenseAction.bind(null, exp.id)}>
                     <button type="submit" className="w-7 h-7 rounded-none bg-white hover:bg-red-500/20 transition-colors flex items-center justify-center">
-                      <Trash2 className="h-3.5 w-3.5 text-white/30 hover:text-red-400" />
+                      <Trash2 className="h-3.5 w-3.5 text-[#151515]/30 hover:text-red-500" />
                     </button>
                   </form>
                 </div>
