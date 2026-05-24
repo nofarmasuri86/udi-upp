@@ -27,21 +27,19 @@ export function AgentSidebarHe({ children, onClear }: AgentSidebarHeProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const Header = ({ onClose }: { onClose?: () => void }) => (
-    <div className="flex items-center gap-2 px-3 py-3 border-b border-black/[0.06] dark:border-white/[0.06] shrink-0">
-      <div className="flex items-center gap-2 flex-1">
-        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-base shadow">
-          🤖
-        </div>
-        <div>
-          <p className="text-sm font-black text-foreground leading-tight">מנהל העבודה</p>
-          <p className="text-xs text-black/40 dark:text-white/40 leading-tight">עוזר AI</p>
-        </div>
+    <div className="flex items-center gap-2.5 px-3 py-3 border-b border-[#2a2a2a] shrink-0">
+      <div className="w-8 h-8 bg-[#8B1A1A] flex items-center justify-center text-base shrink-0">
+        🤖
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-black text-[#f3f3f3] leading-tight">מנהל העבודה</p>
+        <p className="text-[10px] text-[#8B1A1A] leading-tight font-semibold">עוזר AI</p>
       </div>
       {onClose && (
         <button
           type="button"
           onClick={onClose}
-          className="flex h-7 w-7 items-center justify-center rounded-md text-black/40 dark:text-white/40 hover:bg-black/[0.05] dark:hover:bg-white/[0.05] hover:text-black/80 dark:hover:text-white/80 transition-colors"
+          className="flex h-7 w-7 items-center justify-center text-[#f3f3f3]/40 hover:text-[#f3f3f3] hover:bg-[#2a2a2a] transition-colors shrink-0"
         >
           <XIcon />
         </button>
@@ -50,11 +48,11 @@ export function AgentSidebarHe({ children, onClear }: AgentSidebarHeProps) {
   )
 
   const Footer = () => (
-    <div className="border-t border-black/[0.06] dark:border-white/[0.06] px-2 py-2 shrink-0">
+    <div className="border-t border-[#2a2a2a] px-2 py-2 shrink-0">
       {onClear && (
         <button
           onClick={onClear}
-          className="w-full flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-black/40 dark:text-white/40 hover:bg-black/[0.05] dark:hover:bg-white/[0.05] hover:text-red-500 transition-colors"
+          className="w-full flex items-center gap-2 px-2 py-1.5 text-xs text-[#f3f3f3]/40 hover:text-red-400 hover:bg-red-500/10 transition-colors"
         >
           <span>🗑️</span>
           <span>נקה שיחה</span>
@@ -66,7 +64,10 @@ export function AgentSidebarHe({ children, onClear }: AgentSidebarHeProps) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden sm:flex h-full w-[220px] shrink-0 flex-col border-l border-black/[0.06] dark:border-white/[0.06] bg-background" dir="rtl">
+      <aside
+        className="hidden sm:flex h-full w-[220px] shrink-0 flex-col border-l border-[#2a2a2a] bg-[#151515]"
+        dir="rtl"
+      >
         <Header />
         <div className="flex-1 overflow-y-auto px-2 py-3 space-y-4">
           {children}
@@ -79,7 +80,7 @@ export function AgentSidebarHe({ children, onClear }: AgentSidebarHeProps) {
         <button
           type="button"
           onClick={() => setMobileOpen(true)}
-          className="flex h-9 w-9 items-center justify-center rounded-xl bg-muted text-foreground/60 hover:text-foreground transition-colors"
+          className="flex h-9 w-9 items-center justify-center bg-[#151515] text-[#f3f3f3]/60 hover:text-[#f3f3f3] transition-colors border border-[#2a2a2a]"
         >
           <MenuIcon />
         </button>
@@ -87,14 +88,14 @@ export function AgentSidebarHe({ children, onClear }: AgentSidebarHeProps) {
 
       {/* Mobile backdrop */}
       <div
-        className={`sm:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        className={`sm:hidden fixed inset-0 z-40 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
         onClick={() => setMobileOpen(false)}
       />
 
       {/* Mobile drawer */}
       <aside
         dir="rtl"
-        className={`sm:hidden fixed right-0 top-0 bottom-0 w-[260px] z-50 flex flex-col border-l border-black/[0.06] dark:border-white/[0.06] bg-background transition-transform duration-300 ease-in-out ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`sm:hidden fixed right-0 top-0 bottom-0 w-[260px] z-50 flex flex-col border-l border-[#2a2a2a] bg-[#151515] transition-transform duration-300 ease-in-out ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         <Header onClose={() => setMobileOpen(false)} />
         <div className="flex-1 overflow-y-auto px-2 py-3 space-y-4">
@@ -110,7 +111,7 @@ export function SidebarSection({ label, children }: { label?: string; children: 
   return (
     <section className="space-y-1" dir="rtl">
       {label && (
-        <p className="px-2 text-[10px] font-bold uppercase tracking-widest text-black/25 dark:text-white/25 pb-0.5">
+        <p className="px-1 text-[9px] font-black uppercase tracking-widest text-[#f3f3f3]/35 pb-1">
           {label}
         </p>
       )}
@@ -124,7 +125,7 @@ export function SidebarPromptButton({ onClick, children }: { onClick: () => void
     <button
       type="button"
       onClick={onClick}
-      className="w-full text-right rounded-xl border border-black/[0.08] dark:border-white/[0.08] bg-black/[0.03] dark:bg-white/[0.03] px-3 py-2.5 text-sm text-black/60 dark:text-white/60 transition-all duration-150 hover:border-amber-400/50 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-black/90 dark:hover:text-white/90 active:scale-[0.97]"
+      className="w-full text-right border border-[#2a2a2a] bg-[#1e1e1e] px-3 py-2.5 text-xs text-[#f3f3f3]/65 transition-all duration-150 hover:border-[#8B1A1A]/50 hover:bg-[#8B1A1A]/10 hover:text-[#f3f3f3] active:scale-[0.97]"
     >
       {children}
     </button>

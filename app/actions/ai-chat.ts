@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server"
 import { PROJECT_STATUS_LABELS, PAYMENT_METHOD_LABELS } from "@/types"
 import type { PaymentMethod, ProjectStatus } from "@/types"
 import type { TaskType } from "@/app/actions/tasks"
+import { triggerReceiptWebhook } from "@/lib/make"
 import { revalidatePath } from "next/cache"
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
@@ -197,64 +198,26 @@ async function buildDbContext(userId: string): Promise<string> {
 
 // ─── Make.com Webhook ─────────────────────────────────────────
 async function triggerMakeWebhook(projectId: string, userId: string) {
-  if (!process.env.MAKE_WEBHOOK_URL) return
   const supabase = await createClient()
-
-  // idempotency: בדוק אם ה-webhook כבר נשלח
-  const { data: check } = await supabase
-    .from("projects")
-    .select("receipt_webhook_sent_at")
-    .eq("id", projectId)
-    .single()
-
-  if (check?.receipt_webhook_sent_at) return
-
-  // סמן לפני שליחה — מונע כפילויות גם אם הבקשה תיכשל
-  await supabase
-    .from("projects")
-    .update({ receipt_webhook_sent_at: new Date().toISOString() })
-    .eq("id", projectId)
-
   const [{ data: project }, { data: payments }] = await Promise.all([
-    supabase
-      .from("projects")
-      .select("*, client:clients(name, phone, email, address)")
-      .eq("id", projectId)
-      .single(),
-    supabase
-      .from("payments")
+    supabase.from("projects")
+      .select("id, title, price, receipt_webhook_sent_at, client:clients(name, phone, email, address)")
+      .eq("id", projectId).single(),
+    supabase.from("payments")
       .select("amount, method, payment_date, notes")
-      .eq("project_id", projectId)
-      .eq("user_id", userId)
+      .eq("project_id", projectId).eq("user_id", userId)
       .order("payment_date", { ascending: false }),
   ])
-
   if (!project) return
-  const totalPaid = (payments ?? []).reduce((s: number, p: { amount: number }) => s + p.amount, 0)
-  const lastPayment = payments?.[0] ?? null
-  const client = project.client as Record<string, string> | null
-  const LABELS: Record<string, string> = { cash: "מזומן", transfer: "העברה בנקאית", check: "צ'ק", other: "אחר" }
-
-  await fetch(process.env.MAKE_WEBHOOK_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      project_id:           project.id,
-      project_title:        project.title,
-      price:                project.price,
-      total_paid:           totalPaid,
-      balance_due:          (project.price ?? 0) - totalPaid,
-      completed_at:         new Date().toISOString(),
-      payment_method:       lastPayment?.method ?? null,
-      payment_method_label: lastPayment?.method ? (LABELS[lastPayment.method] ?? lastPayment.method) : null,
-      payment_date:         lastPayment?.payment_date ?? null,
-      payment_notes:        lastPayment?.notes ?? null,
-      client_name:          client?.name ?? null,
-      client_phone:         client?.phone ?? null,
-      client_email:         client?.email ?? null,
-      client_address:       client?.address ?? null,
-    }),
-  }).catch(() => null)
+  await triggerReceiptWebhook(
+    project,
+    payments ?? [],
+    async () => {
+      await supabase.from("projects")
+        .update({ receipt_webhook_sent_at: new Date().toISOString() })
+        .eq("id", projectId)
+    }
+  )
 }
 
 // ─── Tool Executor ────────────────────────────────────────────

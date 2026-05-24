@@ -19,6 +19,7 @@
 
 import { NextRequest, NextResponse } from "next/server"
 import { createServiceClient } from "@/lib/supabase/service"
+import { triggerReceiptWebhook } from "@/lib/make"
 
 // ── Auth helper ───────────────────────────────────────────
 function verifySecret(req: NextRequest): boolean {
@@ -171,11 +172,37 @@ export async function POST(req: NextRequest) {
         .eq("project_id", project.id)
 
       const totalPaid = (allPayments ?? []).reduce((s, p) => s + p.amount, 0)
-      if (project.price && totalPaid >= project.price) {
+      const fullyPaid = !!project.price && totalPaid >= project.price
+
+      if (fullyPaid) {
         await supabase
           .from("projects")
           .update({ status: "paid", completed_at: new Date().toISOString() })
           .eq("id", project.id)
+
+        // הפק קבלה: שלח webhook ל-Make → Morning
+        const { data: fullProject } = await supabase
+          .from("projects")
+          .select("id, title, price, receipt_webhook_sent_at, client:clients(name, phone, email, address)")
+          .eq("id", project.id).single()
+
+        if (fullProject) {
+          const { data: fullPayments } = await supabase
+            .from("payments")
+            .select("amount, method, payment_date, notes")
+            .eq("project_id", project.id)
+            .order("payment_date", { ascending: false })
+
+          await triggerReceiptWebhook(
+            fullProject,
+            fullPayments ?? [],
+            async () => {
+              await supabase.from("projects")
+                .update({ receipt_webhook_sent_at: new Date().toISOString() })
+                .eq("id", project.id)
+            }
+          )
+        }
       }
       break
     }
